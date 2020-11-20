@@ -1,9 +1,17 @@
 var express = require('express');
+const user = require('../models/user');
 var router = express.Router();
+const userCtrl = require('../controllers/users');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
+router.get('/profile', isLoggedIn, userCtrl.show);
+
+function isLoggedIn(req, res, next){
+  if(req.isAuthenticated()){
+      return next()
+  } else {
+      res.redirect('/auth/google');
+  }
+}
 
 module.exports = router;

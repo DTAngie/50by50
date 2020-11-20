@@ -6,8 +6,10 @@ const userSchema = new Schema({
     email: String,
     city: String,
     state: String,
-    googleID: String,
+    googleId: String,
     races: [{type: Schema.Types.ObjectId, ref: 'Race'}],
 }, {
     timestamps: true
 })
+
+module.exports = mongoose.model('User', userSchema);
