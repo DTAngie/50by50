@@ -13,12 +13,24 @@ body {
   margin: 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 26px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
 p {
   margin-bottom: 10px;
 }
 
 a {
-  color: #00B7FF;
+  color:  #46a5cc;
 }
 /* Use the line below to use CSS variables on elements */
  /* background-color: var(--theme-blue); */
@@ -57,6 +69,14 @@ nav li a:hover {
   color: #46a5cc;
 }
 
+.container {
+  margin: 0 60px;
+}
+
+.container.full {
+  margin: 0;
+}
+
 #front-pg-img {
   height: 83vh;
   width: 60%;
@@ -93,10 +113,43 @@ nav li a:hover {
 }
 
 #front-pg-content button {
-  background-color: #ccc;
   font-size: 16px;
   padding: 15px;
   border: none;
   outline: none;
   margin-top: 20px;
+  cursor: pointer;
+  box-shadow: 5px 5px 2px rgba(0,0,0, 0.1);
+  border-radius: 3px;
+  border: 1px solid #797979;
+  background-color: #efefef;
+  color: #46a5cc;
+}
+
+#front-pg-content button:hover {
+  background-color: #ccc;
+  color: #272727;
+}
+
+.left {
+  width: 49%;
+  float: left;
+  margin-top: 60px;
+  border-right: 1px solid rgb(24, 24, 24);
+  min-height: 70vh;
+}
+
+.right {
+  width: 49%;
+  float: right;
+  margin-top: 60px;
+}
+
+#race-info {
+  margin-top: 40px;
+}
+
+#races {
+  margin-left: 10px;
+  margin-top: 40px;
 }

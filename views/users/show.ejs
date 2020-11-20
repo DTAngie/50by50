@@ -1,5 +1,32 @@
 <%- include('../partials/header') %>
 <%- include('../partials/nav') %>
+<div class='container'>
+    <div class="left">
+        <div id="user-info">
+            <h2><%= user.name%></h2>
+            <% if(user.city) user.city %>
+            <% if(user.state) user.state %>
+            <% if(!user.city && !user.state) {%>
+                <button>Add Location</button>
+                <!--TODO This needs functionality -->
+            <% }%>
+        </div>
+        <div id="race-info">
+            <h3>My Races</h3>
+            <a href="/races/new">Add a Race</a>
+            <div id="races">
+                Add in races foreach here
 
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <p>
+            Select a race to view details
+        </p>
+        if(race) display race information
+    </div>
+
+</div>
 
 <%- include('../partials/footer') %>

@@ -8,6 +8,7 @@ const userSchema = new Schema({
     state: String,
     googleId: String,
     races: [{type: Schema.Types.ObjectId, ref: 'Race'}],
+    displayName: String,
 }, {
     timestamps: true
 })
