@@ -1,3 +1,8 @@
+:root {
+  --theme-blue: #267DA1;
+  --theme-red: #8C4040;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -6,3 +11,5 @@ body {
 a {
   color: #00B7FF;
 }
+/* Use the line below to use CSS variables on elements */
+ /* background-color: var(--theme-blue); */
