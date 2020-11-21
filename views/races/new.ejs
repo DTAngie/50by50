@@ -1,7 +1,21 @@
 <%- include('../partials/header') %>
 <%- include('../partials/nav') %>
-First check for existing race,
-if it exists, link that race to the runner
+<div class="container">
 
-then if no race exists, add it to the database.
+    <form action="/races" method="POST">
+        <input type="text" name="name">
+        <input type="date" name="date">
+        <input type="text" name="city">
+        <select name="state">
+            <% states.forEach(function(s){ %>
+                <option value="<%= s %>"><%= s %></option>
+            <% }); %>
+        </select>
+        <button type="submit">Add Race</button>
+    </form>
+    First check for existing race,
+    if it exists, link that race to the runner
+    
+    then if no race exists, add it to the database.
+</div>
 <%- include('../partials/footer') %>

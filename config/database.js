@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/50by50', {
+mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
@@ -12,5 +12,5 @@ db.on('connected', function () {
   console.log(`Connected to MongoDB at ${db.host}:${db.port}`);
 });
 
-// mongodb+srv://Admin:<password>@cluster0.2xrq3.mongodb.net/<dbname>?retryWrites=true&w=majority
+// TODO mongodb+srv://Admin:<password>@cluster0.2xrq3.mongodb.net/<dbname>?retryWrites=true&w=majority
 // process.env.DATABASE_URL
