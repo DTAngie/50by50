@@ -3,9 +3,13 @@
 <div class="container">
 
     <form action="/races" method="POST">
-        <input type="text" name="name">
+        <label for="name">Race Name</label>
+        <input type="text" name="name" placeholder="e.g. New York Marathon">
+        <label for="date">Date</label>
         <input type="date" name="date">
+        <label for="city">City</label>
         <input type="text" name="city">
+        <label for="state"></label>
         <select name="state">
             <% states.forEach(function(s){ %>
                 <option value="<%= s %>"><%= s %></option>

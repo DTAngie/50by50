@@ -1,21 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userRacesSchema = new Schema({
-    race: {type: Schema.Types.ObjectId, ref: 'Race'},
-    time: Number //this is the race in seconds
+
+const userAttrSchema = new Schema({
+    city: String,
+    state: String,
+    displayName: String,
 }, {
-    timestamps: true
-});
+    timestamps: true,
+})
 
 const userSchema = new Schema({
     name: String,
     email: String,
-    city: String,
-    state: String,
     googleId: String,
-    displayName: String,
-    races: [userRacesSchema],
+    attr: [userAttrSchema],
 }, {
     timestamps: true
 });
