@@ -32,8 +32,10 @@ p {
 a {
   color:  #46a5cc;
 }
-/* Use the line below to use CSS variables on elements */
- /* background-color: var(--theme-blue); */
+
+ul li {
+  list-style-type: none;
+}
 
 div.header {
   height: 90px;
@@ -152,4 +154,9 @@ nav li a:hover {
 #races {
   margin-left: 10px;
   margin-top: 40px;
+}
+
+#races ul li a {
+  margin-right: 5px;
+  font-weight: bold;
 }

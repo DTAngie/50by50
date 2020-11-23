@@ -15,17 +15,22 @@
             <h3>My Races</h3>
             <a href="/races/new">Add a Race</a>
             <div id="races">
-                <% races.forEach(function(r){ %>
-                    <p><span><%= r.name %></span> <%= r.date %></p>
-                <% }); %>
-
+                <ul>
+                    <% races.forEach(function(r){ %>
+                        <li><a href="?currentRace=<%= races.indexOf(r) %>"><%= r.name %></a> <%= dateFormat(r.date, "mmm d, yyyy") %></li>
+                    <% }); %>
+                </ul>
             </div>
         </div>
     </div>
     <div class="right">
-        <p>
-            Select a race to view details
-        </p>
+        <% if(currentRace) { %>
+            <h3><%= currentRace.name %> </h3>
+            <p><%= currentRace.city %> <%= currentRace.state %></p>
+            <p><span>My Time</span> <%= currentRace.time %></p>
+            <% }  else { %>
+            <p>Select a race to view details</p>
+            <% } %>
         if(race) display race information
     </div>
 

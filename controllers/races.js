@@ -13,7 +13,6 @@ function newRace (req, res) {
 }
 
 function create(req, res) {
-    console.log('lets create');
     let userID = req.user._id;
     let time = formatTime(req.body.hours, req.body.minutes, req.body.seconds);
     let person = {
@@ -40,13 +39,17 @@ function create(req, res) {
         if(!hr && !min && !sec){
             return null;
         }
+        let time = 0;
         if(hr){
-            sec += (hr*3600);
+            time += (parseInt(hr)*3600);
         }
         if(min){
-            sec += (min*60);
+            time += (parseInt(min)*60);
         }
-        return sec;
+        if(sec){
+            time += (parseInt(sec));
+        }
+        return time;
     }
 
     function updateFastestTime(time, race){
