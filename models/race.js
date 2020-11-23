@@ -24,7 +24,7 @@ const raceSchema = new Schema({
         type: Date,
         required: true,
     },
-    runners: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    runners: [runnerSchema],
     fastest: Number, //this will be the id for the runnerSchema
 }, {
     timestamps: true

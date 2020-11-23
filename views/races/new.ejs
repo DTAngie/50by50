@@ -15,6 +15,13 @@
                 <option value="<%= s %>"><%= s %></option>
             <% }); %>
         </select>
+        <label>Chip Time</label>
+        <label for="hours">Hours</label>
+        <input type="number" name="hours" min="0">
+        <label for="minutes">Minutes</label>
+        <input type="number" name="minutes" max="60" min="0">
+        <label for="seconds">Seconds</label>
+        <input type="number" name="seconds" max="60" min="0">
         <button type="submit">Add Race</button>
     </form>
     First check for existing race,

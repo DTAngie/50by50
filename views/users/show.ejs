@@ -15,7 +15,9 @@
             <h3>My Races</h3>
             <a href="/races/new">Add a Race</a>
             <div id="races">
-                Add in races foreach here
+                <% races.forEach(function(r){ %>
+                    <p><span><%= r.name %></span> <%= r.date %></p>
+                <% }); %>
 
             </div>
         </div>
