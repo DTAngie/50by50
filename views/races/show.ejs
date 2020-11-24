@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+<div class="container">
+    <div class="left">
+        <h2><%=race.name %></h2>
+        <h4><%= race.city %> <%= race.state %></h4>
+        <div id="fastest">
+            <p>Fastest Time</p>
+            <%= fastest %>
+            <%= fastest.name %>
+            <%= fastest.time %>
+        </div>
+    </div>
+    <div class="right">
+
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

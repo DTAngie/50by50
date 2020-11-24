@@ -9,7 +9,7 @@
 }
 
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
   margin: 0;
 }
 
@@ -25,12 +25,22 @@ h3 {
   font-size: 20px;
 }
 
+h4 {
+  font-size: 18px;
+  font-weight: normal;
+}
+
 p {
   margin-bottom: 10px;
 }
 
 a {
   color:  #46a5cc;
+  text-decoration: none;
+}
+
+a:hover {
+  color:  #398cad;
 }
 
 ul li {
@@ -63,7 +73,6 @@ nav li {
 
 nav li a {
   color: #fff;
-  text-decoration: none;
   letter-spacing: 1px;
 }
 
@@ -134,17 +143,18 @@ nav li a:hover {
 }
 
 .left {
-  width: 49%;
+  width: 45%;
   float: left;
-  margin-top: 60px;
+  padding-top: 60px;
   border-right: 1px solid rgb(24, 24, 24);
   min-height: 70vh;
 }
 
 .right {
-  width: 49%;
+  width: 45%;
   float: right;
-  margin-top: 60px;
+  padding-top: 60px;
+  padding-left: 30px;
 }
 
 #race-info {
@@ -156,7 +166,29 @@ nav li a:hover {
   margin-top: 40px;
 }
 
+#races ul li {
+  margin-bottom: 10px;
+}
+
 #races ul li a {
   margin-right: 5px;
   font-weight: bold;
+}
+
+#races .current-race a {
+  color: var(--theme-red);
+}
+
+.current-time {
+  margin-top: 20px;
+}
+.current-time span {
+  font-weight: bold;
+  display: block;
+}
+
+.large-link {
+  margin: 40px 0;
+  font-size: 16px;
+  display: block;
 }

@@ -25,7 +25,7 @@ const raceSchema = new Schema({
         required: true,
     },
     runners: [runnerSchema],
-    fastest: Number, //this will be the id for the runnerSchema
+    fastest: String, //this will be the id for the runnerSchema
 }, {
     timestamps: true
 });

@@ -6,6 +6,7 @@ const raceCtrl = require('../controllers/races');
 
 router.get('/new', isLoggedIn, raceCtrl.new);
 router.post('/', isLoggedIn, raceCtrl.create);
+router.get('/:id', isLoggedIn, raceCtrl.show);
 
 
 function isLoggedIn(req, res, next){
