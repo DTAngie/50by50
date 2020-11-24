@@ -15,6 +15,8 @@ require('./config/passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var racesRouter = require('./routes/races');
+var runnersRouter = require('./routes/runners');
+var commentsRouter = require('./routes/comments');
 
 var app = express();
 
@@ -42,6 +44,8 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/races', racesRouter);
+// app.use('/races/', runnersRouter);//TODO fix this once the view is up
+app.use('/races', commentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

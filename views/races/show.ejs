@@ -10,13 +10,27 @@
             <span><%= fastest.time %></span>
         </div>
         <div id="racers">
-            <% runners.forEach(function(r){ %>
-                <%= r.runner.name %> <%= new Date(r.time * 1000).toISOString().substr(11,8) %>
-            <% }) %>
+            <ul>
+                <% runners.forEach(function(r){ %>
+                    <li><%= r.runner.name %> <%= new Date(r.time * 1000).toISOString().substr(11,8) %></li>
+                <% }) %>
+            </ul>
         </div>
     </div>
     <div class="right">
+        <h3>Post a Comment</h3>
+        <form id="new-comment-form" action="/races/<%= race._id %>/comments" method="POST">
+            <label for="new-comment">Add New Comment</label>
+            <textarea name="comment" id="new-comment"></textarea>
+            <button type="submit">Submit</button>
+        </form>
 
+        <div class="all-comments">
+            <% comments.forEach(function(c){ %>
+                <%= c.comment %>
+                <%= c.user.name %>
+            <% }); %>
+        </div>
     </div>
 </div>
 

@@ -13,6 +13,17 @@ const runnerSchema = new Schema({
     timestamps: true
 });
 
+const  commentSchema = new Schema ({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    comment: String
+}, {
+    timestamps: true,
+});
+
 const raceSchema = new Schema({
     name: {
         type: String,
@@ -26,12 +37,12 @@ const raceSchema = new Schema({
     },
     runners: [runnerSchema],
     fastest: String, //this will be the id for the runnerSchema
+    comments: [commentSchema],
 }, {
     timestamps: true
 });
 
 module.exports = mongoose.model('Race', raceSchema);
 
-// Populate --> Race->Runners[race->User->Name
 
 

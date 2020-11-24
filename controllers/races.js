@@ -75,11 +75,22 @@ function show(req, res) {
             }
             const fastest = {
                 name: (runner.displayName) ? runner.displayName : runner.name,
-                time: new Date(fastestTime.time * 1000).toISOString().substr(11,8)
+                time: new Date(fastestTime.time * 1000).toISOString().substr(11,8) 
+                //TODO do this date formatting in the view
             }
             Race.find({_id: req.params.id}).populate('runners.runner', 'name').exec(function(err, people){
-                console.log(people[0].runners[0].runner.name);
-                res.render('races/show', {title: race.name, race, fastest, runners: people[0].runners});
+                // console.log(people[0].runners[0].runner.name);
+                // console.log(people);
+                Race.find({_id: req.params.id}).populate('comments.user', 'name').exec(function(err, comments){
+                    res.render('races/show', {
+                        title: race.name,
+                        race,
+                        fastest,
+                        runners: people[0].runners,
+                        comments: comments.length > 0 ? comments[0].comments : null,
+                    });
+
+                });
             });
         });
     })

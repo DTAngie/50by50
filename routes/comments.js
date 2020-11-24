@@ -1,11 +1,8 @@
 var express = require('express');
-// const user = require('../models/user');
 var router = express.Router();
-const raceCtrl = require('../controllers/races');
+const commentsCtrl = require('../controllers/comments');
 
-router.get('/new', isLoggedIn, raceCtrl.new);
-router.post('/', isLoggedIn, raceCtrl.create);
-router.get('/:id', isLoggedIn, raceCtrl.show);
+router.post('/:id/comments', isLoggedIn, commentsCtrl.create);
 
 
 function isLoggedIn(req, res, next){

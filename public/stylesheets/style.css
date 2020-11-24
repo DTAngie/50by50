@@ -210,3 +210,12 @@ nav li a:hover {
   font-size: 18px;
   font-weight: bold;
 }
+
+#racers {
+  margin-top: 40px;
+}
+
+#racers ul:nth-child(even){
+  background-color: #ccc;
+  /* TODO Make sure this works */
+}

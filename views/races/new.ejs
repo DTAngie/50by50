@@ -3,25 +3,25 @@
 <div class="container">
 
     <form action="/races" method="POST">
-        <label for="name">Race Name</label>
-        <input type="text" name="name" placeholder="e.g. New York Marathon">
-        <label for="date">Date</label>
-        <input type="date" name="date">
-        <label for="city">City</label>
-        <input type="text" name="city">
-        <label for="state"></label>
-        <select name="state">
+        <label for="race-name">Race Name</label>
+        <input type="text" name="name" id="race-name" placeholder="e.g. New York Marathon">
+        <label for="race-date">Date</label>
+        <input type="date" name="date" id="race-date">
+        <label for="race-city">City</label>
+        <input type="text" name="city" id="race-date">
+        <label for="race-state"></label>
+        <select name="state" id="race-state">
             <% states.forEach(function(s){ %>
                 <option value="<%= s %>"><%= s %></option>
             <% }); %>
         </select>
         <label>Chip Time</label>
         <label for="hours">Hours</label>
-        <input type="number" name="hours" min="0">
+        <input type="number" name="hours" min="0" id="hours">
         <label for="minutes">Minutes</label>
-        <input type="number" name="minutes" max="60" min="0">
+        <input type="number" name="minutes" max="60" min="0" id="minutes">
         <label for="seconds">Seconds</label>
-        <input type="number" name="seconds" max="60" min="0">
+        <input type="number" name="seconds" max="60" min="0" id="seconds">
         <button type="submit">Add Race</button>
     </form>
     First check for existing race,
