@@ -65,46 +65,20 @@ function create(req, res) {
 //         race.save()
 //     }
 // }
-function show(req, res) {
-    // Race.findById(req.params.id, function(err, race){
 
-    //     res.render('races/show', {title: race.name, race});
-    // })
+function show(req, res) {
     Race.findById(req.params.id)
-    .then(race => { This needs to be fixed!!
-        // let fastestRunner = race.runners.indexOf(id(race.fastest);
-        race.populate({
-            path: 'runners',
-            match: {_id: race.fastest}
-        }).exec(function(err, fastest){
-            if(err) {
-                // TODO Add error action
+    .then(race => { 
+        const fastestTime = race.runners.id(race.fastest);
+        User.findById(fastestTime.runner, "name", function(err, runner){
+            if(err){
+                //TODO add error action
+            }
+            const fastest = {
+                name: runner.name,
+                time: new Date(fastestTime.time * 1000).toISOString().substr(11,8)
             }
             res.render('races/show', {title: race.name, race, fastest});
-        })
-
-
-        // fastestRunner.populate('runner').exec(function(err, fastest){
-        //     if(err) {
-        //         // TODO Add error action
-        //     }
-        //     res.render('races/show', {title: race.name, race, fastest});
-        // });
-
-        // race.fastest.populate('runners').exec(function(err, fastest){
-        //     if(err){
-        //     }
-        //     res.render('races/show', {title: race.name, race, fastest});
-        // }) //then what?
-        // const fastest = {
-        //    runner: race.runners.id(race.fastest),
-        // }
-    
-        // race.runners.findById(race.fastest, function(err, fastest){
-        //     console.log(fastest);
-        //     if(err) {
-        //         // TODO Add error action
-        //     }
-        // });
+        });
     });
 }

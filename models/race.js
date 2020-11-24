@@ -31,3 +31,7 @@ const raceSchema = new Schema({
 });
 
 module.exports = mongoose.model('Race', raceSchema);
+
+// Populate --> Race->Runners[race->User->Name
+
+
