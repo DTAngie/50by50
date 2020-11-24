@@ -6,14 +6,16 @@
             <h2><%= user.name%></h2>
             <% if(user.city) user.city %>
             <% if(user.state) user.state %>
-            <% if(!user.city && !user.state) {%>
-                <button>Add Location</button>
+            <% if(isOwner) {%>
+                <button>Add/Change Location</button>
                 <!--TODO This needs functionality -->
             <% }%>
         </div>
         <div id="race-info">
             <h3>My Races</h3>
-            <a href="/races/new">Add a Race</a>
+            <% if(isOwner) {%>
+                <a href="/races/new">Add a Race</a>
+            <% }%>
             <div id="races">
                 <ul>
                     <% races.forEach(function(r){ %>

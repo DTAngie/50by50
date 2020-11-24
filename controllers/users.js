@@ -1,15 +1,18 @@
 const User = require('../models/user');
 const Race = require('../models/race');
 const dateFormat = require('dateformat');
+const user = require('../models/user');
 
 module.exports = {
     show
 }
 
 function show(req, res) {
-    User.findById(req.user._id )
+    const userID = (!req.params.id) ? req.user._id : req.params.id;
+    const isOwner = (req.user._id === userID) ? true : false;
+    User.findById(userID)
     .then(user => {
-        Race.find({'runners.runner': user._id}, function(err, races){
+        Race.find({'runners.runner': userID}, function(err, races){
         let currentRace;
         if(req.query.currentRace) {
             currentRace = races[req.query.currentRace];
@@ -22,6 +25,7 @@ function show(req, res) {
             races,
             dateFormat,
             currentRace: currentRace,
+            isOwner,
         });
         })
        

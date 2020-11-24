@@ -4,9 +4,19 @@ const Constants = require('../constants/index');
 const mongoose = require('mongoose');
 
 module.exports = {
+    index,
     new: newRace,
     create,
     show
+}
+
+function index(req, res) {
+    Race.find({}).sort({name: 'descending'}).exec(function(err, races){
+        if(err){
+            //TODO do something
+        }
+        res.render('races/index', {title: 'All Races', races});
+    })
 }
 
 function newRace (req, res) {

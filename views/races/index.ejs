@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+<div class="container">
+    <h1>
+        View all Races
+    </h1>
+    <% races.forEach(function(r){%>
+        <%= r.name %>
+        <%= r.date %>
+        <%= r.city %> <%= r.state %>
+        Runners: <%= r.runners.length %>
+    <% }); %>
+</div>
+
+<%- include('../partials/footer') %>

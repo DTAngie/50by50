@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 const userCtrl = require('../controllers/users');
 
-
+router.get('/profile', isLoggedIn, userCtrl.show);
 router.get('/profile/:id', isLoggedIn, userCtrl.show);
 
 function isLoggedIn(req, res, next){

@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 const raceCtrl = require('../controllers/races');
 
+router.get('/', isLoggedIn, raceCtrl.index);
 router.get('/new', isLoggedIn, raceCtrl.new);
 router.post('/', isLoggedIn, raceCtrl.create);
 router.get('/:id', isLoggedIn, raceCtrl.show);
