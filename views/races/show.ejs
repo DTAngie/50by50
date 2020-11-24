@@ -5,10 +5,14 @@
         <h2><%=race.name %></h2>
         <h4><%= race.city %> <%= race.state %></h4>
         <div id="fastest">
-            <p>Fastest Time</p>
-            <%= fastest %>
-            <%= fastest.name %>
-            <%= fastest.time %>
+            <p id="fast-title">Fastest Time</p>
+            <span><%= fastest.name %></span>
+            <span><%= fastest.time %></span>
+        </div>
+        <div id="racers">
+            <% runners.forEach(function(r){ %>
+                <%= r.runner.name %> <%= new Date(r.time * 1000).toISOString().substr(11,8) %>
+            <% }) %>
         </div>
     </div>
     <div class="right">

@@ -192,3 +192,21 @@ nav li a:hover {
   font-size: 16px;
   display: block;
 }
+
+#fastest {
+  display: inline-block;
+  padding: 15px 30px 5px 30px;
+  background-color: rgb(187, 186, 247);
+  border-radius: 5px;
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.2);
+}
+
+#fastest span {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#fast-title {
+  font-size: 18px;
+  font-weight: bold;
+}

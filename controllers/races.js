@@ -67,18 +67,20 @@ function create(req, res) {
 // }
 
 function show(req, res) {
-    Race.findById(req.params.id)
-    .then(race => { 
+    Race.findById(req.params.id, function(err, race){
         const fastestTime = race.runners.id(race.fastest);
         User.findById(fastestTime.runner, "name", function(err, runner){
             if(err){
                 //TODO add error action
             }
             const fastest = {
-                name: runner.name,
+                name: (runner.displayName) ? runner.displayName : runner.name,
                 time: new Date(fastestTime.time * 1000).toISOString().substr(11,8)
             }
-            res.render('races/show', {title: race.name, race, fastest});
+            Race.find({_id: req.params.id}).populate('runners.runner', 'name').exec(function(err, people){
+                console.log(people[0].runners[0].runner.name);
+                res.render('races/show', {title: race.name, race, fastest, runners: people[0].runners});
+            });
         });
-    });
+    })
 }
