@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/races', racesRouter);
-// app.use('/races/', runnersRouter);//TODO fix this once the view is up
+app.use('/runners', runnersRouter);
 app.use('/races', commentsRouter);
 
 // catch 404 and forward to error handler

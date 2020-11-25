@@ -5,37 +5,52 @@
     <!-- https://www.npmjs.com/package/react-select-search -->
     <!-- Think about this solution for searching instead of a simple select -->
     <p>Search for your race. If it is not listed, <span class="pseudo-link" id="new-race">click here</span> to add a new race.</p>
-    <select id="existing-races" name="existing-races">
-        <% races.forEach(function(r){%>
-            <option value='<%=r.id %>'><%= r.name %> - <%= r.date.toString().substr(4,11) %></option>
-       <% }); %>
-    </select>
-    <!-- TODO This needs to be inside a form -->
-    <form class="hidden" action="/races" method="POST" id="new-race-form">
-        <label for="race-name">Race Name</label>
-        <input type="text" name="name" id="race-name" placeholder="e.g. New York Marathon">
-        <label for="race-date">Date</label>
-        <input type="date" name="date" id="race-date">
-        <label for="race-city">City</label>
-        <input type="text" name="city" id="race-date">
-        <label for="race-state"></label>
-        <select name="state" id="race-state">
-            <% states.forEach(function(s){ %>
-                <option value="<%= s %>"><%= s %></option>
-            <% }); %>
+    <form action="/runners" method="POST">
+        <select id="existing-races" name="existing-races">
+            <option value=""></option>
+            <% races.forEach(function(r){%>
+                <option value='<%=r.id %>'><%= r.name %> - <%= r.date.toString().substr(4,11) %></option>
+           <% }); %>
         </select>
-        <label>Chip Time</label>
-        <label for="hours">Hours</label>
-        <input type="number" name="hours" min="0" id="hours">
-        <label for="minutes">Minutes</label>
-        <input type="number" name="minutes" max="60" min="0" id="minutes">
-        <label for="seconds">Seconds</label>
-        <input type="number" name="seconds" max="60" min="0" id="seconds">
-        <button type="submit">Add Race</button>
+        <div class="collapsible">
+            <div>
+                <p class="form-section-header">Chip Time</p>
+                <label for="runner-hours">Hours</label>
+                <input type="number" name="hours" max="99" min="0" id="runner-hours">
+                <label for="runner-minutes">Minutes</label>
+                <input type="number" name="minutes" max="60" min="0" id="runner-minutes">
+                <label for="runner-seconds">Seconds</label>
+                <input type="number" name="seconds" max="60" min="0" id="runner-seconds">
+                <button type="submit">Add Race</button>
+            </div>
+        </div>
     </form>
-    First check for existing race,
-    if it exists, link that race to the runner
-    
-    then if no race exists, add it to the database.
+    <!-- TODO This needs to be inside a form -->
+    <form class="collapsible" action="/races" method="POST" id="new-race-form">
+        <div>
+            <p class="form-section-header">Race Information</p>
+            <label for="race-name">Race Name</label>
+            <input type="text" name="name" id="race-name" placeholder="e.g. New York Marathon">
+            <label for="race-date">Date</label>
+            <input type="date" name="date" id="race-date">
+            <br />
+            <label for="race-city">City</label>
+            <input type="text" name="city" id="race-city">
+            <label for="race-state">State</label>
+            <select name="state" id="race-state">
+                <% states.forEach(function(s){ %>
+                    <option value="<%= s %>"><%= s %></option>
+                <% }); %>
+            </select>
+            <p class="form-section-header">Chip Time</p>
+            <label for="hours">Hours</label>
+            <input type="number" name="hours" max="99" min="0" id="hours">
+            <label for="minutes">Minutes</label>
+            <input type="number" name="minutes" max="60" min="0" id="minutes">
+            <label for="seconds">Seconds</label>
+            <input type="number" name="seconds" max="60" min="0" id="seconds">
+            <button type="submit">Add Race</button>
+        </div>
+    </form>
 </div>
 <%- include('../partials/footer') %>
