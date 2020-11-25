@@ -9,23 +9,24 @@
                 <%= user.state ? user.state : '' %>
             </p>
             <% if(isOwner) {%>
-                <button id="change-location">Add/Change Location</button>
-                <form class="hidden" id="edit-location-form" action="/users/profile/<%= user._id %>?_method=PUT" method="POST">
-                    <label for="user-city">City</label>
-                    <input type="text" name="city" id="user-city">
-                    <label for="user-state">State</label>
-                    <select name="state" id="user-state">
-                        <% states.forEach(function(s){ %>
-                            <option value="<%= s %>"><%= s %></option>
-                        <% }); %>
-                    </select>
-                    <button type="submit">Update</button>
+                <button class="small" id="change-location">Edit</button>
+                <form class="collapsible" id="edit-location-form" action="/users/profile/<%= user._id %>?_method=PUT" method="POST">
+                    <div>
+                        <label for="user-city">City</label>
+                        <input type="text" name="city" id="user-city">
+                        <label for="user-state">State</label>
+                        <select name="state" id="user-state">
+                            <% states.forEach(function(s){ %>
+                                <option value="<%= s %>"><%= s %></option>
+                            <% }); %>
+                        </select>
+                        <button class="centered small" type="submit">Update</button>
+                    </div>
                 </form>
-                <!--TODO This needs functionality -->
             <% }%>
         </div>
         <div id="race-info">
-            <h3>My Races</h3>
+            <h3 class="inline-block">My Races</h3>
             <% if(isOwner) {%>
                 <a href="/races/new"><button>Add a Race</button></a>
             <% }%>
@@ -47,7 +48,7 @@
             <p class="current-time"><span>My Time</span> <%= currentRace.time %></p>
             <a class="large-link" href="/races/<%= currentRace.id %>">View other Runners in this race</a>
             <% }  else { %>
-            <p>Select a race to view details</p>
+            <p class="italic">Select a race to view details</p>
             <% } %>
     </div>
 
