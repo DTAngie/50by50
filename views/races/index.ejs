@@ -5,7 +5,7 @@
         View all Races
     </h1>
     <% races.forEach(function(r){%>
-        <%= r.name %>
+        <a href="/races/<%=r._id%>"><%= r.name %></a>
         <%= r.date %>
         <%= r.city %> <%= r.state %>
         Runners: <%= r.runners.length %>

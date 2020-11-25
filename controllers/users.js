@@ -9,7 +9,7 @@ module.exports = {
 
 function show(req, res) {
     const userID = (!req.params.id) ? req.user._id : req.params.id;
-    const isOwner = (req.user._id === userID) ? true : false;
+    const isOwner = (req.user._id.toString() === userID.toString()) ? true : false;
     User.findById(userID)
     .then(user => {
         Race.find({'runners.runner': userID}, function(err, races){
