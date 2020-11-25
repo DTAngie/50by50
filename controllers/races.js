@@ -21,7 +21,12 @@ function index(req, res) {
 
 function newRace (req, res) {
     const states = Constants.states;
-    res.render('races/new', {title: 'Add New Race', states});
+    Race.find({}).sort({name: 'descending'}).exec(function(err, races){
+        if(err){
+            //do something
+        }
+        res.render('races/new', {title: 'Add New Race', states, races});
+    });
 }
 
 function create(req, res) {

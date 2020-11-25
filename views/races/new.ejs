@@ -1,8 +1,17 @@
 <%- include('../partials/header') %>
 <%- include('../partials/nav') %>
-<div class="container">
-
-    <form action="/races" method="POST">
+<div class="container padded">
+    <h2>Add A Race</h2>
+    <!-- https://www.npmjs.com/package/react-select-search -->
+    <!-- Think about this solution for searching instead of a simple select -->
+    <p>Search for your race. If it is not listed, <span class="pseudo-link" id="new-race">click here</span> to add a new race.</p>
+    <select id="existing-races" name="existing-races">
+        <% races.forEach(function(r){%>
+            <option value='<%=r.id %>'><%= r.name %> - <%= r.date.toString().substr(4,11) %></option>
+       <% }); %>
+    </select>
+    <!-- TODO This needs to be inside a form -->
+    <form class="hidden" action="/races" method="POST" id="new-race-form">
         <label for="race-name">Race Name</label>
         <input type="text" name="name" id="race-name" placeholder="e.g. New York Marathon">
         <label for="race-date">Date</label>

@@ -4,8 +4,10 @@
     <div class="left">
         <div id="user-info">
             <h2><%= user.name%></h2>
-        <%= user.city ? user.city : '' %>
-            <%= user.state ? user.state : '' %>
+            <p>
+                <%= user.city ? user.city : '' %>
+                <%= user.state ? user.state : '' %>
+            </p>
             <% if(isOwner) {%>
                 <button id="change-location">Add/Change Location</button>
                 <form class="hidden" id="edit-location-form" action="/users/profile/<%= user._id %>?_method=PUT" method="POST">
@@ -25,7 +27,7 @@
         <div id="race-info">
             <h3>My Races</h3>
             <% if(isOwner) {%>
-                <a href="/races/new">Add a Race</a>
+                <a href="/races/new"><button>Add a Race</button></a>
             <% }%>
             <div id="races">
                 <ul>
