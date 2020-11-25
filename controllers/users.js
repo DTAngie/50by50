@@ -16,20 +16,52 @@ function show(req, res) {
     .then(user => {
         Race.find({'runners.runner': userID}, function(err, races){
         let currentRace;
+        console.log(req.query.currentRace);
         if(req.query.currentRace) {
             currentRace = races[req.query.currentRace];
-            console.log(currentRace);
-            currentRace.time = new Date(currentRace.runners[0].time * 1000).toISOString().substr(11,8);
+
+            Race.findOne({_id: req.query.id, 'runners.runner': userID }, function(err, race){
+                if(err){
+                    console.log('error here');
+                    console.log(err);
+                }
+
+                let racer = race.runners.filter(function(r){
+                    console.log('inside filter');
+                    console.log(r.runner);
+                    console.log(userID);
+                    return r.runner.toString() === userID.toString();
+                });
+                
+                currentRace.time = new Date(racer[0].time * 1000).toISOString().substr(11,8);
+                
+                res.render('users/show', {
+                    title: "My Profile",
+                    user,
+                    races,
+                    dateFormat,
+                    currentRace: currentRace,
+                    isOwner,
+                    states
+                });
+            });
+            
+
+
+
+            
+        } else {
+
+            res.render('users/show', {
+                title: "My Profile",
+                user,
+                races,
+                dateFormat,
+                currentRace: currentRace,
+                isOwner,
+                states
+            });
         }
-        res.render('users/show', {
-            title: "My Profile",
-            user,
-            races,
-            dateFormat,
-            currentRace: currentRace,
-            isOwner,
-            states
-        });
         })
        
     }); 

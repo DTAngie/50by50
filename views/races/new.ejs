@@ -6,7 +6,7 @@
     <!-- Think about this solution for searching instead of a simple select -->
     <p>Search for your race. If it is not listed, <span class="pseudo-link" id="new-race">click here</span> to add a new race.</p>
     <form action="/runners" method="POST">
-        <select id="existing-races" name="existing-races">
+        <select id="existing-races" name="id">
             <option value=""></option>
             <% races.forEach(function(r){%>
                 <option value='<%=r.id %>'><%= r.name %> - <%= r.date.toString().substr(4,11) %></option>
@@ -25,7 +25,6 @@
             </div>
         </div>
     </form>
-    <!-- TODO This needs to be inside a form -->
     <form class="collapsible" action="/races" method="POST" id="new-race-form">
         <div>
             <p class="form-section-header">Race Information</p>

@@ -26,7 +26,7 @@
             <% }%>
         </div>
         <div id="race-info">
-            <h3 class="inline-block">My Races</h3>
+            <h3 class="inline-block"><%= isOwner ? 'My' : '' %> Races</h3>
             <% if(isOwner) {%>
                 <a href="/races/new"><button>Add a Race</button></a>
             <% }%>
@@ -45,7 +45,7 @@
         <% if(currentRace) { %>
             <h3><%= currentRace.name %> </h3>
             <p><%= currentRace.city %> <%= currentRace.state %></p>
-            <p class="current-time"><span>My Time</span> <%= currentRace.time %></p>
+            <p class="current-time"><span>Chip Time</span> <%= currentRace.time %></p>
             <a class="large-link" href="/races/<%= currentRace.id %>">View other Runners in this race</a>
             <% }  else { %>
             <p class="italic">Select a race to view details</p>
