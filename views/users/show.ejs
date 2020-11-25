@@ -4,10 +4,21 @@
     <div class="left">
         <div id="user-info">
             <h2><%= user.name%></h2>
-            <% if(user.city) user.city %>
-            <% if(user.state) user.state %>
+        <%= user.city ? user.city : '' %>
+            <%= user.state ? user.state : '' %>
             <% if(isOwner) {%>
-                <button>Add/Change Location</button>
+                <button id="change-location">Add/Change Location</button>
+                <form class="hidden" id="edit-location-form" action="/users/profile/<%= user._id %>?_method=PUT" method="POST">
+                    <label for="user-city">City</label>
+                    <input type="text" name="city" id="user-city">
+                    <label for="user-state">State</label>
+                    <select name="state" id="user-state">
+                        <% states.forEach(function(s){ %>
+                            <option value="<%= s %>"><%= s %></option>
+                        <% }); %>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
                 <!--TODO This needs functionality -->
             <% }%>
         </div>
