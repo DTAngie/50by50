@@ -119,10 +119,22 @@ input {
   padding: 2px 5px;
 }
 
- select {
-   height: 25px;
-   margin-bottom: 10px;
- }
+select {
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+textarea {
+  max-width: 90%;
+  min-width: 90%;
+  height: 80px;
+  min-height: 50px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  padding: 5px;
+}
 
 .container {
   margin: 0 60px;
@@ -138,6 +150,10 @@ input {
 
 .italic {
   font-style: italic;
+}
+
+.block {
+  display: block;
 }
 
 .inline-block {
@@ -165,7 +181,7 @@ h3.inline-block {
 
 }
 
-.collapsible div {
+.collapsible div, #comment-form-container {
   margin-top: 20px;
   padding: 30px 20px;
   background-color: #f0f8ff;
@@ -323,4 +339,26 @@ h3.inline-block {
 
 form div .form-section-header:not(:first-child) {
   margin-top: 30px;
+}
+
+#comment-form-container .textarea{
+ margin-left: auto;
+ margin-right: auto;
+}
+
+.comment-container {
+  border: 1px solid rgb(231, 231, 231);
+  box-shadow: 5px 5px 5px rgba(0,0,0, 0.2);
+  margin: 10px 15px 10px 0;
+  padding: 20px 15px;
+  border-radius: 10px;
+}
+
+.comment-container .comment-text {
+  margin-bottom: 20px;
+}
+
+.comment-container .comment-date {
+  font-size: 14px;
+  font-style: italic;
 }

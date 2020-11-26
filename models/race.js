@@ -19,7 +19,10 @@ const  commentSchema = new Schema ({
         ref: 'User',
         required: true,
     },
-    comment: String
+    comment: {
+        type: String,
+        required: true,
+    }
 }, {
     timestamps: true,
 });

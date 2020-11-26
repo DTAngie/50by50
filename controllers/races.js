@@ -1,6 +1,7 @@
 const Race = require('../models/race');
 const User = require('../models/user');
 const Constants = require('../constants/index');
+const dateFormat = require('dateformat');
 const mongoose = require('mongoose');
 
 module.exports = {
@@ -103,6 +104,7 @@ function show(req, res) {
                         fastest,
                         runners: people[0].runners,
                         comments: comments.length > 0 ? comments[0].comments : null,
+                        dateFormat,
                     });
 
                 });
