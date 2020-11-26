@@ -1,15 +1,27 @@
 <%- include('../partials/header') %>
 <%- include('../partials/nav') %>
-<div class="container">
+<div class="container padded">
     <h1>
         View all Races
     </h1>
-    <% races.forEach(function(r){%>
-        <a href="/races/<%=r._id%>"><%= r.name %></a>
-        <%= r.date %>
-        <%= r.city %> <%= r.state %>
-        Runners: <%= r.runners.length %>
-    <% }); %>
+    <div class="grid-container race-table">
+        <div class="grid row table-head">
+            <div class="table-header">Race</div>
+            <div class="table-header">Location</div>
+            <div class="table-header">Date</div>
+            <div class="table-header">Runners</div>
+        </div>
+        <% races.forEach(function(r){%>
+            <a href="/races/<%=r._id%>">
+                <div class="grid row table-content">
+                    <div><%= r.name %></div>
+                    <div><%= r.city %> <%= r.state %></div>
+                    <div><%= dateFormat(r.date, "mmm d, yyyy") %></div>
+                    <div><%= r.runners.length %></div>    
+                </div>
+            </a>
+        <% }); %>
+    </div>
 </div>
 
 <%- include('../partials/footer') %>

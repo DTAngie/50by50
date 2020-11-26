@@ -326,9 +326,16 @@ h3.inline-block {
   margin-top: 40px;
 }
 
-#racers ul:nth-child(even){
-  background-color: #ccc;
-  /* TODO Make sure this works */
+#racers ul {
+  display: inline-block;
+}
+
+#racers ul li {
+  padding: 4px 5px;
+}
+
+#racers li:nth-child(even){
+  background-color: #ececec;
 }
 
 .form-section-header {
@@ -361,4 +368,42 @@ form div .form-section-header:not(:first-child) {
 .comment-container .comment-date {
   font-size: 14px;
   font-style: italic;
+}
+
+.grid-container {
+  display: grid;
+}
+
+.grid-container.race-table {
+  grid-template-columns: 100%;
+}
+
+.grid-container.race-table .grid.row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  grid-template-rows: 100%;
+}
+
+.grid-container a:nth-child(odd) .grid.row {
+  background-color: #ececec;
+
+}
+
+.grid.row.table-content:hover, .grid-container a:nth-child(odd) .grid.row:hover {
+  background-color: #e6d3d3;
+}
+
+.grid.row.table-head {
+  margin-bottom: 10px;
+}
+
+.grid.row .table-header {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+.grid.row.table-content {
+  padding: 4px 5px;
+  text-align: center;
 }

@@ -16,7 +16,7 @@ function index(req, res) {
         if(err){
             //TODO do something
         }
-        res.render('races/index', {title: 'All Races', races});
+        res.render('races/index', {title: 'All Races', races, dateFormat});
     })
 }
 

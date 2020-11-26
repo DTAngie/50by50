@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 module.exports = {
     create
 }
-//TODO test this out!!
+
 function create(req, res) {
     console.log(req.params.id);
     Race.findById(req.params.id, function(err, race){
@@ -25,7 +25,7 @@ function create(req, res) {
             console.log(race);
             race.comments.push(newComment);
             race.save();
-            res.redirect(`/races/${race._id}`); //TODO make this redirect to wherever makes sense!
+            res.redirect(`/races/${race._id}`);
         });
     });
 }
