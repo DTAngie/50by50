@@ -407,3 +407,10 @@ form div .form-section-header:not(:first-child) {
   padding: 4px 5px;
   text-align: center;
 }
+
+
+.delete-item {
+  content: url('../images/remove.png');
+  height: 20px;
+  float: right;
+}
