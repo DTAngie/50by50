@@ -104,6 +104,7 @@ function show(req, res) {
                             runners: people.length > 0 ? people[0].runners : null,
                             comments: comments.length > 0 ? comments[0].comments : null,
                             dateFormat,
+                            user: req.user,
                         });                      
                     }); 
                 });
@@ -115,6 +116,7 @@ function show(req, res) {
                     runners: null,
                     comments: comments.length > 0 ? comments[0].comments : null,
                     dateFormat,
+                    user: req.user,
                 });
             }
             

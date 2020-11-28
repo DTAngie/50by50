@@ -7,7 +7,8 @@ const changeLocationEl = document.getElementById('change-location');
 const newRaceEl = document.getElementById('new-race');
 const raceDropDownEl = document.getElementById('existing-races');
 const commentContEls = document.querySelectorAll('.comment-container');
-const editTimeEl = document.getElementById('edit-time')
+const editTimeEl = document.getElementById('edit-time');
+const deleteAccountEl = document.getElementById('delete-account');
 
 //General functions
 modalCancelEl.addEventListener('click', function(e){
@@ -45,6 +46,14 @@ if(editTimeEl){
     editTimeEl.addEventListener('click', function(e) {
         const formEl = document.getElementById('edit-time-form');
         toggleForm(document.getElementById('edit-time-form'), e.target, "Edit");
+    });
+}
+
+if(deleteAccountEl){
+    deleteAccountEl.addEventListener('click', function(e){
+        modalContainerEl.classList.remove('hidden');
+        modalContentEL.textContent = "Are you sure you want to delete your account?";
+        modalConfirmEl.action=`/users?_method=DELETE`;
     });
 }
 
@@ -94,12 +103,12 @@ function toggleForm(formElement, el, originalText = null){
 
 if(commentContEls){
     commentContEls.forEach(function(c){
-        let deleteEl = c.firstElementChild;
+        let deleteEl = (c.getElementsByClassName('delete-item'));
         c.addEventListener('mouseenter', function(e){
-            deleteEl.classList.remove('hidden');
+            deleteEl[0].classList.remove('hidden');
         });
         c.addEventListener('mouseleave', function(e){
-            deleteEl.classList.add('hidden');
+            deleteEl[0].classList.add('hidden');
         });
     })
 }

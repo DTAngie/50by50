@@ -5,12 +5,14 @@ const Constants = require('../constants/index');
 
 module.exports = {
     show,
-    update
+    update,
+    delete: deleteUser,
 }
 
 function show(req, res) {
     const states = Constants.states;
-    const userID = (!req.params.id) ? req.user._id : req.params.id;
+    //userID refers to the owner of the profile, not the user logged in
+    const userID = (!req.params.id) ? req.user._id : req.params.id; 
     const isOwner = (req.user._id.toString() === userID.toString()) ? true : false;
     User.findById(userID)
     .then(user => {
@@ -85,4 +87,21 @@ function update(req, res){
         user.save();
         res.redirect(`/users/profile/${user._id}`);
     })
+}
+
+function deleteUser(req, res) {
+    const userId = req.user._id;
+    User.findById(userId, function(err, user){
+        //find comments
+        Race.find({'comments.user': userId}, function(err, comments){
+            // TODO for each comment, loop through them and delete them/
+            
+            console.log("these are the comments");
+            console.log(comments);
+        });
+
+        //find runners
+
+        //delete user
+    });
 }

@@ -6,6 +6,7 @@ const userCtrl = require('../controllers/users');
 router.get('/profile', isLoggedIn, userCtrl.show);
 router.get('/profile/:id', isLoggedIn, userCtrl.show);
 router.put('/profile/:id', isLoggedIn, userCtrl.update);
+router.delete('/', isLoggedIn, userCtrl.delete);
 
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){

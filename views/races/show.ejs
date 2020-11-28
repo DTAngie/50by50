@@ -17,7 +17,10 @@
             <ul>
                 <% if(runners) { %>
                     <% runners.forEach(function(r){ %>
-                        <li><a href="/users/profile/<%= r.runner.id %>"><%= r.runner.name %></a> <%= new Date(r.time * 1000).toISOString().substr(11,8) %></li>
+                        <li>
+                            <a href="/users/profile/<%= r.runner.id %>"><%= r.runner.name %></a>
+                            <span><%= new Date(r.time * 1000).toISOString().substr(11,8) %></span>
+                        </li>
                     <% }) %>
                 <% } %>
             </ul>
@@ -37,7 +40,9 @@
             <% if(comments){ %>
                 <% comments.forEach(function(c){ %>
                     <div class="comment-container">
-                        <div class="delete-item hidden" id="comment-<%= c._id %>-race-<%= race._id %>"></div>
+                        <% if(c.user._id.toString() === user._id.toString()){ %>
+                            <div class="delete-item hidden" id="comment-<%= c._id %>-race-<%= race._id %>"></div>
+                        <% } %>
                         <!-- TODO only display delete for your own comments and then double check on server side -->
                         <p class="comment-text">
                             <%= c.comment %>

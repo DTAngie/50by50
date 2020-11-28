@@ -211,6 +211,7 @@ h3.inline-block {
   border-radius: 5px;
   box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
   padding: 20px 10px;
+  z-index: 2;
 }
 
 #modal button, #modal form {
@@ -306,16 +307,21 @@ h3.inline-block {
 .left {
   width: 45%;
   float: left;
-  padding-top: 60px;
+  margin-top: 50px;
+  padding-top: 20px;
   border-right: 1px solid rgb(24, 24, 24);
   min-height: 70vh;
+  position: relative;
 }
 
 .right {
   width: 45%;
   float: right;
-  padding-top: 60px;
+  margin-top: 50px;
+  padding-top: 20px;
   padding-left: 30px;
+  min-height: 70vh;
+  position: relative;
 }
 
 #edit-location-form div, #edit-time-form div {
@@ -325,6 +331,15 @@ h3.inline-block {
 
 #edit-location-form input {
   margin-right: 0;
+}
+
+#delete-account {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: rgb(192, 8, 8);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 #race-info {
@@ -385,7 +400,7 @@ h3.inline-block {
   margin-top: 40px;
 }
 
-#racers ul {
+#racers ul, #races ul {
   display: inline-block;
 }
 
@@ -397,6 +412,10 @@ h3.inline-block {
   background-color: #ececec;
 }
 
+#racers li span, #races li span {
+  float: right;
+  margin-left: 20px;
+}
 .form-section-header {
   font-size: 18px;
   border-bottom: 1px solid rgb(105, 105, 105);
