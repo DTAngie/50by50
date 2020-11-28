@@ -36,7 +36,7 @@
                         <%= c.comment %>
                     </p>
                     <p class="commenter">
-                        <%= c.user.name %> <span class="comment-date"><%= dateFormat(c.createdAt, "mmm d, yyyy") %></span>
+                        <a href="/users/profile/<%= c.user._id %>"><%= c.user.name %></a> <span class="comment-date"><%= dateFormat(c.createdAt, "mmm d, yyyy") %></span>
                     </p>
 
                 </div>
