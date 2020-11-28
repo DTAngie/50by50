@@ -7,6 +7,7 @@ const changeLocationEl = document.getElementById('change-location');
 const newRaceEl = document.getElementById('new-race');
 const raceDropDownEl = document.getElementById('existing-races');
 const commentContEls = document.querySelectorAll('.comment-container');
+const editTimeEl = document.getElementById('edit-time')
 
 //General functions
 modalCancelEl.addEventListener('click', function(e){
@@ -32,14 +33,19 @@ if(deleteBtnEls){
 
 
 
-
 //User page
 if(changeLocationEl){
     changeLocationEl.addEventListener('click', function(e){
         const formEl = document.getElementById('edit-location-form');
-        toggleForm(document.getElementById('edit-location-form'));
+        toggleForm(document.getElementById('edit-location-form'), e.target, "Edit Location");
     });
+}
 
+if(editTimeEl){
+    editTimeEl.addEventListener('click', function(e) {
+        const formEl = document.getElementById('edit-time-form');
+        toggleForm(document.getElementById('edit-time-form'), e.target, "Edit");
+    });
 }
 
 //New race page
@@ -69,11 +75,17 @@ if(raceDropDownEl){
     });
 }
 
-function toggleForm(formElement){
+function toggleForm(formElement, el, originalText = null){
     if(formElement.classList.contains('open')){
         formElement.classList.remove('open');
+        if(originalText) {
+            el.textContent = originalText;
+        }
     } else {
         formElement.classList.add('open');
+        if(originalText) {
+            el.textContent = "Cancel";
+        }
     }
 }
 

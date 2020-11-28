@@ -5,7 +5,7 @@
     <!-- https://www.npmjs.com/package/react-select-search -->
     <!-- Think about this solution for searching instead of a simple select -->
     <p>Search for your race. If it is not listed, <span class="pseudo-link" id="new-race">click here</span> to add a new race.</p>
-    <form action="/runners" method="POST">
+    <form action="/races/runners" method="POST">
         <select id="existing-races" name="id">
             <option value=""></option>
             <% races.forEach(function(r){%>

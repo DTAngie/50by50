@@ -318,8 +318,9 @@ h3.inline-block {
   padding-left: 30px;
 }
 
-#edit-location-form div {
+#edit-location-form div, #edit-time-form div {
   padding: 10px 10px;
+  display: inline-block;
 }
 
 #edit-location-form input {
