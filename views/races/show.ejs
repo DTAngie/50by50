@@ -6,14 +6,20 @@
         <h4><%= race.city %> <%= race.state %></h4>
         <div id="fastest">
             <p id="fast-title">Fastest Time</p>
-            <span><%= fastest.name %></span>
-            <span><%= fastest.time %></span>
+            <% if(fastest) { %>
+                <span><%= fastest.name %></span>
+                <span><%= fastest.time %></span>
+            <% } else { %>
+                <span>No runners available</span>
+            <% } %>
         </div>
         <div id="racers">
             <ul>
-                <% runners.forEach(function(r){ %>
-                    <li><a href="/users/profile/<%= r.runner.id %>"><%= r.runner.name %></a> <%= new Date(r.time * 1000).toISOString().substr(11,8) %></li>
-                <% }) %>
+                <% if(runners) { %>
+                    <% runners.forEach(function(r){ %>
+                        <li><a href="/users/profile/<%= r.runner.id %>"><%= r.runner.name %></a> <%= new Date(r.time * 1000).toISOString().substr(11,8) %></li>
+                    <% }) %>
+                <% } %>
             </ul>
         </div>
     </div>
@@ -28,19 +34,21 @@
         </div>
 
         <div class="all-comments">
-            <% comments.forEach(function(c){ %>
-                <div class="comment-container">
-                    <div class="delete-item hidden" id="comment-<%= c._id %>-race-<%= race._id %>"></div>
-                    <!-- TODO this needs to open a modal or pop up to confirm delete -->
-                    <p class="comment-text">
-                        <%= c.comment %>
-                    </p>
-                    <p class="commenter">
-                        <a href="/users/profile/<%= c.user._id %>"><%= c.user.name %></a> <span class="comment-date"><%= dateFormat(c.createdAt, "mmm d, yyyy") %></span>
-                    </p>
+            <% if(comments){ %>
+                <% comments.forEach(function(c){ %>
+                    <div class="comment-container">
+                        <div class="delete-item hidden" id="comment-<%= c._id %>-race-<%= race._id %>"></div>
+                        <!-- TODO only display delete for your own comments and then double check on server side -->
+                        <p class="comment-text">
+                            <%= c.comment %>
+                        </p>
+                        <p class="commenter">
+                            <a href="/users/profile/<%= c.user._id %>"><%= c.user.name %></a> <span class="comment-date"><%= dateFormat(c.createdAt, "mmm d, yyyy") %></span>
+                        </p>
+                    </div>
+                <% }); %>
+            <% } %>
 
-                </div>
-            <% }); %>
         </div>
     </div>
 </div>

@@ -7,11 +7,14 @@ module.exports = {
     update,
     delete: deleteRunner,
 }
-//TODO test this out!! Is this even being used?
+
 function create(req, res) {
     let time = formatTime(req.body.hours, req.body.minutes, req.body.seconds);
     Race.findById(req.body.id, function(err, race){
-        const fastestTime = race.runners.id(race.fastest);
+        console.log('create new runner');
+        console.log(race.fastest);
+        const fastestTime = (race.fastest) ? race.runners.id(race.fastest) : null ;
+        console.log(fastestTime);
         if(err){
             // TODO deal with error
         }
@@ -25,7 +28,11 @@ function create(req, res) {
             }
             person.runner = user._id;
             race.runners.push(person);
-            if(fastestTime.time > time) {
+            if(fastestTime) {
+                if(fastestTime.time > time) {
+                    race.fastest = person._id
+                }
+            } else {
                 race.fastest = person._id
             }
             race.save();
@@ -43,14 +50,44 @@ function update(req, res) {
         const runner = race.runners.id(req.params.runnerId);
         let time = formatTime(req.body.hours, req.body.minutes, req.body.seconds);
         runner.time = time;
-        race.save();
-        res.redirect(`/users/profile/${req.user._id}?currentRace=${req.params.id}`);
+        race.save(function(err){
+            if(err){
+                //do something
+            }
+            res.redirect(`/users/profile/${req.user._id}?currentRace=${req.params.id}`);
+        });
     });
 }
+//TODO find all saves and make sure they have callback function like above
 
 function deleteRunner(req, res) {
     //first delete the runner
-    //then, if there are no runners left, delete the race
+    Race.findById(req.params.id, function(err, race){
+        if(err) {
+        }
+        const runner = race.runners.id(req.params.runnerId);
+        runner.remove();
+        console.log(race);
+        race.fastest = null;
+        race.save(function(err){
+            if(err){
+                console.log('there was an error with saving');
+                //do something
+            }
+            console.log(race);
+            if(race.runners.length === 0 && race.comments.length === 0) {
+                race.deleteOne(function(err){
+                    if(err){
+                        // do something
+                    }
+                    res.redirect(`/users/profile/${req.user._id}`);
+                })
+            } else {
+                res.redirect(`/users/profile/${req.user._id}`)
+            }
+        });
+    })
+
 }
 
 function formatTime(hr, min, sec) {
