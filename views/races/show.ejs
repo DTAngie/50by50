@@ -30,7 +30,8 @@
         <div class="all-comments">
             <% comments.forEach(function(c){ %>
                 <div class="comment-container">
-                    <div class="delete-item">-</div>
+                    <div class="delete-item hidden" id="comment-<%= c._id %>-race-<%= race._id %>"></div>
+                    <!-- TODO this needs to open a modal or pop up to confirm delete -->
                     <p class="comment-text">
                         <%= c.comment %>
                     </p>

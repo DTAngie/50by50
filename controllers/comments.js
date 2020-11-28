@@ -1,9 +1,11 @@
 const Race = require('../models/race');
 const User = require('../models/user');
 const mongoose = require('mongoose');
+const { replaceOne } = require('../models/user');
 
 module.exports = {
-    create
+    create,
+    delete: deleteComment
 }
 
 function create(req, res) {
@@ -27,5 +29,17 @@ function create(req, res) {
             race.save();
             res.redirect(`/races/${race._id}`);
         });
+    });
+}
+
+function deleteComment (req, res) {
+    Race.findById(req.params.id, function(err, race){
+        const comment = race.comments.id(req.params.commentId).remove();
+        race.save(function (err){
+            if(err) {
+                //do something
+            }
+            res.redirect(`/races/${race._id}`);
+        })
     });
 }
