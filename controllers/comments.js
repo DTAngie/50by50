@@ -13,6 +13,8 @@ function create(req, res) {
     Race.findById(req.params.id, function(err, race){
         if(err){
             // TODO deal with error
+            res.locals.err = "Error";
+            res.redirect(`/races/${race._id}`);
         }
         let newComment = {
             _id: mongoose.Types.ObjectId(),
