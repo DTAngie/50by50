@@ -79,10 +79,17 @@ nav li {
 nav li a {
   color: #fff;
   letter-spacing: 1px;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
 }
 
 nav li a:hover {
   color: #46a5cc;
+}
+
+nav li a.active {
+  color: #272727;
+  font-weight: bold;
+  text-shadow: 1.2px 1.2px 1px rgba(0,0,0,0.1);
 }
 
 button {

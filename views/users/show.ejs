@@ -3,14 +3,14 @@
 <div class='container'>
     <div class="left">
         <div id="user-info">
-            <h2><%= user.name%></h2>
+            <h2><%= locals.user.name%></h2>
             <p>
-                <%= user.city ? user.city : '' %>
-                <%= user.state ? user.state : '' %>
+                <%= locals.user.city ? locals.user.city : '' %>
+                <%= locals.user.state ? locals.user.state : '' %>
             </p>
             <% if(isOwner) {%>
                 <span class="pseudo-link" id="change-location">Edit Location</span>
-                <form class="collapsible" id="edit-location-form" action="/users/profile/<%= user._id %>?_method=PUT" method="POST">
+                <form class="collapsible" id="edit-location-form" action="/users/profile/<%= locals.user._id %>?_method=PUT" method="POST">
                     <div>
                         <label for="user-city">City</label>
                         <input type="text" name="city" id="user-city">

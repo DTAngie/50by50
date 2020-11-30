@@ -83,44 +83,38 @@ function create(req, res) {
 // }
 
 function show(req, res) {
-    Race.findById(req.params.id, function(err, race){
-        Race.find({_id: req.params.id}).populate('comments.user', 'name').exec(function(err, comments){
-            if(race.fastest){
-                const fastestTime = race.runners.id(race.fastest);
-                User.findById(fastestTime.runner, "name", function(err, runner) {
-                    if(err){
-                        //TODO add error action
-                    }
-                    const fastest = {
-                        name: (runner.displayName) ? runner.displayName : runner.name,
-                        time: new Date(fastestTime.time * 1000).toISOString().substr(11,8) 
-                        //TODO do this date formatting in the view
-                    }
-                    Race.find({_id: req.params.id}).populate('runners.runner', 'name').exec(function(err, people){
-                        res.render('races/show', {
-                            title: race.name,
-                            race,
-                            fastest,
-                            runners: people.length > 0 ? people[0].runners : null,
-                            comments: comments.length > 0 ? comments[0].comments : null,
-                            dateFormat,
-                            user: req.user,
-                        });                      
-                    }); 
-                });
-            } else {
+    Race.findById(req.params.id)
+    .populate('comments.user', 'name')
+    .populate('runners.runner', 'name').exec(function(err, race){
+        if(race.fastest){
+            const fastestTime = race.runners.id(race.fastest);
+            User.findById(fastestTime.runner, "name", function(err, runner) {
+                if(err){
+                    //TODO add error action
+                }
+                const fastest = {
+                    name: (runner.displayName) ? runner.displayName : runner.name,
+                    time: new Date(fastestTime.time * 1000).toISOString().substr(11,8) 
+                    //TODO do this date formatting in the view
+                }
                 res.render('races/show', {
                     title: race.name,
                     race,
-                    fastest: null,
-                    runners: null,
-                    comments: comments.length > 0 ? comments[0].comments : null,
+                    fastest,
+                    runners: race.runners.length > 0 ? race.runners : null,
+                    comments: race.comments.length > 0 ? race.comments : null,
                     dateFormat,
-                    user: req.user,
-                });
-            }
-            
-
-        });
+                });        
+            })
+        } else {
+            res.render('races/show', {
+                title: race.name,
+                race,
+                fastest: null,
+                runners: null,
+                comments: race.comments.length > 0 ? race.comments : null,
+                dateFormat,
+            });
+        }
     });
 }

@@ -21,44 +21,30 @@ function show(req, res) {
         Race.find({'runners.runner': userID}, function(err, races){
         let currentRace;
         if(req.query.currentRace) {
-            // currentRace = races[req.query.currentRace];
-            console.log(req.query.currentRace);
-
             Race.findOne({_id: req.query.currentRace, 'runners.runner': userID }, function(err, race){
                 if(err){
-                    console.log('error here');
-                    console.log(err);
+                    // TODO do something
                 }
-                console.log(race);
                 currentRace = race;
                 let racer = race.runners.filter(function(r){
                     return r.runner.toString() === userID.toString();
                 });
-                console.log(racer[0].time);
-                console.log(currentRace);
                 currentRace.time = new Date(racer[0].time * 1000).toISOString().substr(11,8);
                 currentRace.runnerId = racer[0]._id;
                 
                 res.render('users/show', {
                     title: "Profile",
-                    user,
                     races,
                     dateFormat,
                     currentRace: currentRace,
                     isOwner,
                     states
                 });
-            });
-            
-
-
-
-            
+            });            
         } else {
 
             res.render('users/show', {
                 title: "Profile",
-                user,
                 races,
                 dateFormat,
                 currentRace: currentRace,
@@ -91,18 +77,9 @@ function update(req, res){
 function deleteUser(req, res) {
     const userId = req.user._id;
     let modified = [];
-        
-    //TODO test the following situations
-    // 1. Race has only runner being deleted, no comments
-    // 2. Race has other runners, with or without comments (deleted user is fastest runner)
-    // 3. Race has other runners, (deleted user is not fastest runner)
-
-        console.log('begin');
 
         Race.find({'comments.user': userId}, function(err, comments){
             comments.forEach(function(race){
-                console.log('comment for each');
-                console.log(race);
                 race.comments.forEach(function(c){
                     if(c.user.toString() === userId.toString()){
                         c.remove();
@@ -113,17 +90,10 @@ function deleteUser(req, res) {
                 });
                 if(!needsDeletion(race)){
                     race.save();
-                    console.log('safe');
-                }else {
-                    console.log('deleted');
-                    //TODO delete this after test
                 }
-
             });
-            console.log('end comment foreach');
         }).then(Race.find({'runners.runner': userId}, function(err, runners){
             runners.forEach(function(race){
-                console.log('runner for each');
                 race.runners.forEach(function(r){
                     if(r.runner.toString() === userId.toString()){
                         r.remove();
@@ -135,58 +105,24 @@ function deleteUser(req, res) {
                 if(!needsDeletion(race)){
                     updateFaster(race);
                     race.save();
-                    console.log('safe');
-                }else {
-                    console.log('deleted');
-                     //TODO delete this after test
                 }
-            });
-            console.log('end runner for each');
-            
+            });            
         })
-        
         ).then(User.deleteOne({_id: userId}, function(err, user){
             if(err){
                 //do something
             }
-            console.log('redirect');
             res.redirect('/');
-        }));
-            
-        //     () =>{
-        //     modified.forEach(function(id){
-        //         console.log('start saving');
-        //         console.log(id);
-        //         Race.find({_id: id}, function(err, race){
-        //             if(err){
-        //                 //do something
-        //             }
-        //             console.log('this is the race');
-        //             console.log(race);
-                    
-        //             race.save();
-        //         })
-        //     });
-        //     console.log('and done');
-            
-        // }).then(function(){
-        //     console.log('redirect');
-        //     res.redirect('/');
-
-        // }
-
-        
+        }));        
 
 
         function updateFaster(race){
             if (race.runners.length === 0) {
-                console.log('no runners');
                 //If the race has comments still, keep it but set the fastest runner to null
                 race.fastest = null;
             } else if (!race.runners.id(race.fastest)) {
-                console.log('shift it');
                 //If there are other runners, find the next fastest runner
-                let nextHigest = race.runners.sort(function(a, b){
+                let nextHighest = race.runners.sort(function(a, b){
                     return a.time - b.time;
                 });
                 race.fastest = nextHighest[0]._id;
@@ -196,7 +132,6 @@ function deleteUser(req, res) {
         function needsDeletion(race){
             if(race.runners.length === 0 && race.comments.length === 0) {
                 //If the race has no runners or comments, delete the race entirely
-                console.log('nothing left');
                 race.deleteOne(function(err){
                     if(err){
                         // do something

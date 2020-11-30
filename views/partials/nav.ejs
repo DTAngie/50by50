@@ -10,8 +10,8 @@
             <a href="/auth/google">Log In</a>
         <% } %>
     </li>
-    <li><a href="/users/profile">My Profile</a></li>
-    <li><a href="/races">View All Races</a></li>
+    <li><a class='<%= (typeof isOwner !== 'undefined' && isOwner) ? "active" : "" %>' href="/users/profile">My Profile</a></li>
+    <li><a class='<%= (locals.originalUrl === "/races") ? "active" : "" %>' href="/races">View All Races</a></li>
 </ul>
 </nav>
 <div id="modal-container" class="hidden">

@@ -40,7 +40,7 @@
             <% if(comments){ %>
                 <% comments.forEach(function(c){ %>
                     <div class="comment-container">
-                        <% if(c.user._id.toString() === user._id.toString()){ %>
+                        <% if(c.user._id.toString() === locals.user._id.toString()){ %>
                             <div class="delete-item hidden" id="comment-<%= c._id %>-race-<%= race._id %>"></div>
                         <% } %>
                         <!-- TODO only display delete for your own comments and then double check on server side -->
