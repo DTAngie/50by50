@@ -32,8 +32,14 @@ const raceSchema = new Schema({
         type: String,
         required: true,
     },
-    city: String,
-    state: String,
+    city: {
+        type: String,
+        required: true,
+    },
+    state: {
+        type: String,
+        required: true,
+    },
     date: {
         type: Date,
         required: true,

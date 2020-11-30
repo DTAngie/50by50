@@ -5,7 +5,8 @@ For the runners who like to travel, this app will help you keep track of each st
 <br> <br>
 
 ## Screenshots
-Screenshots to come
+![Screenshot 1](./public/images/Screenshot1.png "Screenshot")
+![Screenshot 2](./public/images/Screenshot2.png "Screenshot 2")
 
 ## Technologies
 This app was built with the following technologies:
@@ -18,7 +19,7 @@ This app was built with the following technologies:
 
 ### Links
 Links to come
-- Trello board
+- [Trello board](https://trello.com/b/rb1WX2a8/50by50)
 - Deployed app
 
 ## Icebox

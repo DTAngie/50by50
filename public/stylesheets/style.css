@@ -530,3 +530,10 @@ form div .form-section-header:not(:first-child) {
   float: right;
   cursor: pointer;
 }
+
+.map {
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 500px;
+  height: 250px;
+}

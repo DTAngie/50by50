@@ -16,6 +16,7 @@ function show(req, res) {
     //userID refers to the owner of the profile, not the user logged in
     const userID = (!req.params.id) ? req.user._id : req.params.id; 
     const isOwner = (req.user._id.toString() === userID.toString()) ? true : false;
+    const mapKey = process.env.GOOGLE_API_KEY;
     User.findById(userID)
     .then(user => {
         Race.find({'runners.runner': userID}, function(err, races){
@@ -31,6 +32,8 @@ function show(req, res) {
                 });
                 currentRace.time = new Date(racer[0].time * 1000).toISOString().substr(11,8);
                 currentRace.runnerId = racer[0]._id;
+
+                const mapLocation = currentRace.city.replace("/\s/g", "+") + "," + currentRace.state;
                 
                 res.render('users/show', {
                     title: "Profile",
@@ -38,7 +41,9 @@ function show(req, res) {
                     dateFormat,
                     currentRace: currentRace,
                     isOwner,
-                    states
+                    states,
+                    mapKey,
+                    mapLocation,
                 });
             });            
         } else {
@@ -49,7 +54,7 @@ function show(req, res) {
                 dateFormat,
                 currentRace: currentRace,
                 isOwner,
-                states
+                states,
             });
         }
         })
