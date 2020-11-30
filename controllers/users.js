@@ -56,7 +56,7 @@ function show(req, res) {
        
     }); 
 }
-
+//TODO use the existing location form to change display name, use current value to populate form
 function update(req, res){
     User.findById(req.params.id, function(err, user){
         if(err){

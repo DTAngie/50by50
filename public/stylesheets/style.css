@@ -21,6 +21,10 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 20px;
 }
 
+h1 {
+  font-size: 32px;
+}
+
 h2 {
   font-size: 26px;
 }
@@ -57,6 +61,26 @@ div.header {
   background-color: var(--theme-blue);
   color: #fff;
   position: static;
+  padding: 0 40px;
+  text-shadow: 3px 3px 4px rgba(0,0,0, 0.3);
+}
+
+div.header h1 {
+  float:left;
+  margin-top: 25px;
+}
+
+div.header div {
+  float: right;
+  margin-top: 10px;
+}
+
+div.header h2 {
+  margin-bottom: 10px;
+}
+
+div.header h3 {
+  font-style: italic;
 }
 
 nav {

@@ -23,7 +23,7 @@ passport.use(new GoogleStrategy({
       if (user) {
         return cb(null, user);
       } else {
-        // we have a new student via OAuth!
+        // we have a new person via OAuth!
         var newUser = new User({
           name: profile.displayName,
           googleId: profile.id
