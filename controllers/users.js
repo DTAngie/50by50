@@ -62,13 +62,9 @@ function update(req, res){
         if(err){
             //do something
         }
-        if(req.user._id !== req.params.id){
-            //TODO catch error
-            //test this to make sure it works
-            //if so, use this for every edit and add
-        }
-        user.city = req.body.city ? req.body.city : user.city;
-        user.state = req.body.state ? req.body.state : user.state;
+        user.displayName = req.body.displayName;
+        user.city = req.body.city;
+        user.state = req.body.state;
         user.save();
         res.redirect(`/users/profile/${user._id}`);
     })

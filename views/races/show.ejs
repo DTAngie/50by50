@@ -18,7 +18,7 @@
                 <% if(runners) { %>
                     <% runners.forEach(function(r){ %>
                         <li>
-                            <a href="/users/profile/<%= r.runner.id %>"><%= r.runner.name %></a>
+                            <a href="/users/profile/<%= r.runner.id %>"><%= (r.runner.displayName) ? r.runner.displayName : r.runner.name %></a>
                             <span><%= new Date(r.time * 1000).toISOString().substr(11,8) %></span>
                         </li>
                     <% }) %>
@@ -48,7 +48,7 @@
                             <%= c.comment %>
                         </p>
                         <p class="commenter">
-                            <a href="/users/profile/<%= c.user._id %>"><%= c.user.name %></a> <span class="comment-date"><%= dateFormat(c.createdAt, "mmm d, yyyy") %></span>
+                            <a href="/users/profile/<%= c.user._id %>"><%= (c.user.displayName) ? c.user.displayName : c.user.name %></a> <span class="comment-date"><%= dateFormat(c.createdAt, "mmm d, yyyy") %></span>
                         </p>
                     </div>
                 <% }); %>

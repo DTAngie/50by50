@@ -84,8 +84,8 @@ function create(req, res) {
 
 function show(req, res) {
     Race.findById(req.params.id)
-    .populate('comments.user', 'name')
-    .populate('runners.runner', 'name').exec(function(err, race){
+    .populate({path: 'comments.user', select: 'name displayName'})
+    .populate({path: 'runners.runner', select: 'name displayName'}).exec(function(err, race){
         if(race.fastest){
             const fastestTime = race.runners.id(race.fastest);
             User.findById(fastestTime.runner, "name", function(err, runner) {

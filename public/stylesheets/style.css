@@ -171,6 +171,11 @@ textarea {
   padding: 5px;
 }
 
+p.small-font {
+  font-size: 12px;
+  font-style: italic;
+}
+
 .container {
   margin: 0 60px;
 }

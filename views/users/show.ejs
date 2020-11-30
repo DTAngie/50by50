@@ -3,21 +3,26 @@
 <div class='container'>
     <div class="left">
         <div id="user-info">
-            <h2><%= locals.user.name%></h2>
+            <h2><%= locals.user.name%> <%= (locals.user.displayName) ? "(" + locals.user.displayName + ")" : '' %></h2>
             <p>
                 <%= locals.user.city ? locals.user.city : '' %>
                 <%= locals.user.state ? locals.user.state : '' %>
             </p>
             <% if(isOwner) {%>
-                <span class="pseudo-link" id="change-location">Edit Location</span>
+                <span class="pseudo-link" id="change-location">Edit Name/Location</span>
                 <form class="collapsible" id="edit-location-form" action="/users/profile/<%= locals.user._id %>?_method=PUT" method="POST">
                     <div>
+                        <p class="small-font">To delete a field, leave it blank and click Update</p>
+                        <label for="display-name">Display Name</label>
+                        <input type="text" name="displayName" id="display-name" value="<%= (locals.user.displayName) ? locals.user.displayName : '' %>">
+                        <br>
                         <label for="user-city">City</label>
-                        <input type="text" name="city" id="user-city">
+                        <input type="text" name="city" id="user-city" value="<%= (locals.user.city) ? locals.user.city : '' %>">
                         <label for="user-state">State</label>
                         <select name="state" id="user-state">
+                            <option value=""></option>
                             <% states.forEach(function(s){ %>
-                                <option value="<%= s %>"><%= s %></option>
+                                <option value="<%= s %>" <%= (s === locals.user.state) ? 'selected="selected"': '' %>><%= s %></option>
                             <% }); %>
                         </select>
                         <button class="centered small" type="submit">Update</button>
