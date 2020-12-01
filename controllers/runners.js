@@ -19,29 +19,31 @@ function create(req, res) {
             Race.findById(req.body.id, function(err, race){
                 const fastestTime = (race.fastest) ? race.runners.id(race.fastest) : null ;
                 if(err){
-                    // TODO deal with error
-                }
-                let person = {
-                    _id: mongoose.Types.ObjectId(),
-                    time: time,
-                }
-                User.findById(req.user._id, function(err, user){
-                    if(err){
-                        res.redirect('/races/new'); //TODO is this right path?
+                   req.flash('errors', "Could not find that race, please try again.");
+                   res.redirect('/races/new');
+                } else {
+                    let person = {
+                        _id: mongoose.Types.ObjectId(),
+                        time: time,
                     }
-                    person.runner = user._id;
-                    race.runners.push(person);
-                    if(fastestTime) {
-                        if(fastestTime.time > time) {
+                    User.findById(req.user._id, function(err, user){
+                        if(err){
+                            res.redirect('/races/new');
+                        }
+                        person.runner = user._id;
+                        race.runners.push(person);
+                        if(fastestTime) {
+                            if(fastestTime.time > time) {
+                                race.fastest = person._id
+                            }
+                        } else {
                             race.fastest = person._id
                         }
-                    } else {
-                        race.fastest = person._id
-                    }
-                    race.save();
-                    req.flash('message', "New Race added");
-                    res.redirect(`/users/profile/${user._id}`);
-                });
+                        race.save();
+                        req.flash('message', "New Race added");
+                        res.redirect(`/users/profile/${user._id}`);
+                    });
+                }
             });
         }
     });
@@ -50,42 +52,38 @@ function create(req, res) {
 function update(req, res) {
     Race.findById(req.params.id, function(err, race){
         if(err){
-            //do something
-        }
-        const runner = race.runners.id(req.params.runnerId);
-        const raceFastest = race.fastest ? race.fastest : "null";
-        const fastestTime = (race.fastest) ? race.runners.id(race.fastest).time : null ;
-        let time = formatTime(req.body.hours, req.body.minutes, req.body.seconds);
-        runner.time = time;
-        if(raceFastest.toString() !== runner._id.toString() ){
-            //If user was not fastest user and now is after edit
-            if(runner.time < fastestTime || fastestTime === null){
-                race.fastest = runner._id;
-            }
+            req.flash('errors', "Could not find that race, please try again.");
+            res.redirect(`/users/profile/${req.user._id}`);
         } else {
-            //If user was the fastest user and now is not after edit
-            console.log(runner.time)
-            if(runner.time > fastestTime || runner.time == null){
-                let nextHighest = race.runners.sort(function(a, b){
-                    return a.time - b.time;
-                });
-                if(nextHighest[0].time !== null && nextHighest[0].time !== 0){
-                    race.fastest = nextHighest[0]._id;
-                } else {
-                    race.fastest = null;
+            const runner = race.runners.id(req.params.runnerId);
+            const raceFastest = race.fastest ? race.fastest : "null";
+            const fastestTime = (race.fastest) ? race.runners.id(race.fastest).time : null ;
+            let time = formatTime(req.body.hours, req.body.minutes, req.body.seconds);
+            runner.time = time;
+            if(raceFastest.toString() !== runner._id.toString() ){
+                //If user was not fastest user and now is after edit
+                if(runner.time < fastestTime || fastestTime === null){
+                    race.fastest = runner._id;
+                }
+            } else {
+                //If user was the fastest user and now is not after edit
+                if(runner.time > fastestTime || runner.time == null){
+                    let nextHighest = race.runners.sort(function(a, b){
+                        return a.time - b.time;
+                    });
+                    if(nextHighest[0].time !== null && nextHighest[0].time !== 0){
+                        race.fastest = nextHighest[0]._id;
+                    } else {
+                        race.fastest = null;
+                    }
                 }
             }
+            race.save();
+            req.flash('message', "Chip time updated");
+            res.redirect(`/users/profile/${req.user._id}?currentRace=${req.params.id}`);
         }
-        race.save(function(err){
-            if(err){
-                //do something
-            }
-        });
-        req.flash('message', "Chip time updated");
-        res.redirect(`/users/profile/${req.user._id}?currentRace=${req.params.id}`);
     });
 }
-//TODO find all saves and make sure they have callback function like above
 
 function deleteRunner(req, res) {
     Race.findById(req.params.id, function(err, race){
@@ -102,22 +100,13 @@ function deleteRunner(req, res) {
             });
             race.fastest = nextHighest[0]._id;
         }
-        race.save(function(err){
-            if(err){
-                //do something
-            }
-            //If there are no subdocs in the Race, delete it
-            if(race.runners.length === 0 && race.comments.length === 0) {
-                race.deleteOne(function(err){
-                    if(err){
-                        // do something
-                    }
-                    res.redirect(`/users/profile/${req.user._id}`);
-                })
-            } else {
-                res.redirect(`/users/profile/${req.user._id}`)
-            }
-        });
+        race.save();
+        //If there are no subdocs in the Race, delete it
+        if(race.runners.length === 0 && race.comments.length === 0) {
+            race.deleteOne();
+        }  
+        req.flash('message', "Race deleted");
+        res.redirect(`/users/profile/${req.user._id}`);            
     })
 
 }

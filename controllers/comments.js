@@ -11,8 +11,7 @@ module.exports = {
 function create(req, res) {
     Race.findById(req.params.id, function(err, race){
         if(err){
-            // TODO deal with error
-            res.locals.err = "Error";
+            req.flash('errors', "Something went wrong. Please try again");
             res.redirect(`/races/${race._id}`);
         }
         let newComment = {
@@ -20,14 +19,10 @@ function create(req, res) {
             comment: req.body.comment,
         }
         User.findById(req.user._id, function(err, user){
-            if(err){
-                res.redirect('/races/new'); //TODO is this right path?
-            }
             newComment.user = user._id;
-            console.log('this is my race');
-            console.log(race);
             race.comments.push(newComment);
             race.save();
+            req.flash('message', "Comment posted.");
             res.redirect(`/races/${race._id}`);
         });
     });
@@ -37,9 +32,7 @@ function deleteComment (req, res) {
     Race.findById(req.params.id, function(err, race){
         const comment = race.comments.id(req.params.commentId).remove();
         race.save(function (err){
-            if(err) {
-                //do something
-            }
+            req.flash('message', "Comment deleted.");
             res.redirect(`/races/${race._id}`);
         })
     });

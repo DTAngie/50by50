@@ -18,6 +18,7 @@ function show(req, res) {
     const isOwner = (req.user._id.toString() === userID.toString()) ? true : false;
     const mapKey = process.env.GOOGLE_API_KEY;
     let message = req.flash('message');
+    let errMessage = req.flash('errors');
     let currentRaceId = req.flash('current-race');
     if(currentRaceId){
         currentRaceId = req.query.currentRace;
@@ -28,10 +29,6 @@ function show(req, res) {
         let currentRace;
         if(currentRaceId) {
             Race.findOne({_id: currentRaceId, 'runners.runner': userID }, function(err, race){
-                if(err){
-                    // TODO do something
-                }
-                console.log('inside');
                 currentRace = race;
                 let racer = race.runners.filter(function(r){
                     return r.runner.toString() === userID.toString();
@@ -51,11 +48,11 @@ function show(req, res) {
                     mapKey,
                     mapLocation,
                     message: message.length > 0 ? message : "",
+                    errors: errMessage.length > 0 ? errMessage : "",
 
                 });
             });            
         } else {
-
             res.render('users/show', {
                 title: "Profile",
                 races,
@@ -64,26 +61,29 @@ function show(req, res) {
                 isOwner,
                 states,
                 message: message.length > 0 ? message : "",
+                errors: errMessage.length > 0 ? errMessage : "",
             });
         }
         })
-       
     }); 
 }
-//TODO use the existing location form to change display name, use current value to populate form
+
 function update(req, res){
     User.findById(req.params.id, function(err, user){
         if(err){
-            //do something
+            req.flash('errors', "Something went wrong. Please try again");
+            res.redirect(`/users/profile/${user._id}`);
         }
         user.displayName = req.body.displayName;
         user.city = req.body.city;
         user.state = req.body.state;
         user.save(function(err){
             if(err){
-                //do something
+                req.flash('errors', "Something went wrong. Please try again");
+                res.redirect(`/users/profile/${user._id}`);
             }
         });
+        req.flash('message', "Profile updated.");
         res.redirect(`/users/profile/${user._id}`);
     })
 }
@@ -92,146 +92,69 @@ function deleteUser(req, res) {
     const userId = req.user._id;
     let modified = [];
 
-        Race.find({'comments.user': userId}, function(err, comments){
-            comments.forEach(function(race){
-                race.comments.forEach(function(c){
-                    if(c.user.toString() === userId.toString()){
-                        c.remove();
-                        if(modified.indexOf(race._id.toString()) === -1){
-                            modified.push(race._id.toString());
-                        }
+    Race.find({'comments.user': userId}, function(err, comments){
+        comments.forEach(function(race){
+            race.comments.forEach(function(c){
+                if(c.user.toString() === userId.toString()){
+                    c.remove();
+                    if(modified.indexOf(race._id.toString()) === -1){
+                        modified.push(race._id.toString());
                     }
-                });
-                if(!needsDeletion(race)){
-                    race.save();
                 }
             });
-        }).then(Race.find({'runners.runner': userId}, function(err, runners){
-            runners.forEach(function(race){
-                race.runners.forEach(function(r){
-                    if(r.runner.toString() === userId.toString()){
-                        r.remove();
-                        if(modified.indexOf(race._id.toString()) === -1){
-                            modified.push(race._id.toString());
-                        }
+            if(!needsDeletion(race)){
+                race.save();
+            }
+        });
+    }).then(Race.find({'runners.runner': userId}, function(err, runners){
+        runners.forEach(function(race){
+            race.runners.forEach(function(r){
+                if(r.runner.toString() === userId.toString()){
+                    r.remove();
+                    if(modified.indexOf(race._id.toString()) === -1){
+                        modified.push(race._id.toString());
                     }
-                });
-                if(!needsDeletion(race)){
-                    updateFaster(race);
-                    race.save();
                 }
-            });            
-        })
-        ).then(User.deleteOne({_id: userId}, function(err, user){
+            });
+            if(!needsDeletion(race)){
+                updateFaster(race);
+                race.save();
+            }
+        });            
+    })
+    ).then(User.deleteOne({_id: userId}, function(err, user){
+        if(err){
             if(err){
-                //do something
+                req.flash('errors', "Something went wrong. Please try again");
+                res.redirect(`/users/profile/${user._id}`);
             }
+        } else {
+            req.flash('message', "Account Deletion Successful");
             res.redirect('/');
-        }));        
-
-
-        function updateFaster(race){
-            if (race.runners.length === 0) {
-                //If the race has comments still, keep it but set the fastest runner to null
-                race.fastest = null;
-            } else if (!race.runners.id(race.fastest)) {
-                //If there are other runners, find the next fastest runner
-                let nextHighest = race.runners.sort(function(a, b){
-                    return a.time - b.time;
-                });
-                race.fastest = nextHighest[0]._id;
-            }
         }
+    }));        
 
-        function needsDeletion(race){
-            if(race.runners.length === 0 && race.comments.length === 0) {
-                //If the race has no runners or comments, delete the race entirely
-                race.deleteOne(function(err){
-                    if(err){
-                        // do something
-                    }
-                });
-                return true;
-            } else {
-                return false;
-            }
+
+    function updateFaster(race){
+        if (race.runners.length === 0) {
+            //If the race has comments still, keep it but set the fastest runner to null
+            race.fastest = null;
+        } else if (!race.runners.id(race.fastest)) {
+            //If there are other runners, find the next fastest runner
+            let nextHighest = race.runners.sort(function(a, b){
+                return a.time - b.time;
+            });
+            race.fastest = nextHighest[0]._id;
         }
-      
-   // TODO flash a confirmation message that says deletion was a success
+    }
 
-
-
-
-
-
-    // deleteUser();
-    // async function deleteUser(){
-    //     await Race.find({'comments.user': userId}).exec( function(err, comments){
-    //         // TODO for each comment, loop through them and delete them/
-    //         comments.forEach(function(race){
-    //             console.log(race);
-    //             race.comments.forEach(function(c){
-    //                 if(c.user.toString() === userId.toString()){
-    //                     // c.remove();
-    //                     if(modified.indexOf(race._id.toString()) === -1){
-    //                         modified.push(race._id.toString());
-    //                     }
-    //                 }
-    //             });
-    //             console.log(race);
-    //         });
-    //     });
-
-    //     await Race.find({'runners.runner': userId}, function(err, runners){
-    //         runners.forEach(function(race){
-    //             race.runners.forEach(function(r){
-    //                 if(r.runner.toString() === userId.toString()){
-    //                     r.remove();
-    //                 }
-    //             });
-    //             if(race.runners.length === 0 && race.comments.length === 0) {
-    //                 //If the race has no runners or comments, delete the race entirely
-    //                 race.deleteOne(function(err){
-    //                     if(err){
-    //                         // do something
-    //                     }
-    //                 });
-    //             } else if (race.runners.length === 0) {
-    //                 //If the race has comments still, keep it but set the fastest runner to null
-    //                 if(modified.indexOf(race._id.toString()) === -1){
-    //                     modified.push(race._id.toString());
-    //                 }
-    //                 race.fastest = null;
-    //             } else if (!race.runners.id(race.fastest)) {
-    //                 //If there are other runners, find the next fastest runner
-    //                 if(modified.indexOf(race._id.toString()) === -1){
-    //                     modified.push(race._id.toString());
-    //                 }
-    //                 let nextHigest = race.runners.sort(function(a, b){
-    //                     return a.time - b.time;
-    //                 });
-    //                 race.fastest = nextHighest[0]._id;
-    //             }
-
-    //         });
-    //     });
-        
-    //     await User.deleteOne({_id: userId}, function(err){
-    //         if(err){
-    //             //do something
-    //         }
-    //         modified.forEach(function(id){
-    //             Race.findById(id, function(err, race){
-    //                 console.log('this is the race');
-    //                 console.log(race);
-    //                 if(err){
-    //                     //do something
-    //                 }
-    //                 race.save();
-    //             })
-    //         });
-    //         res.redirect('/');
-    //     });
-
-    // }
+    function needsDeletion(race){
+        if(race.runners.length === 0 && race.comments.length === 0) {
+            //If the race has no runners or comments, delete the race entirely
+            race.deleteOne();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

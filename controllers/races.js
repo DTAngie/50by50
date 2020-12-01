@@ -93,19 +93,17 @@ function create(req, res) {
 
 
 function show(req, res) {
+    let message = req.flash('message');
+    let errMessage = req.flash('errors');
     Race.findById(req.params.id)
     .populate({path: 'comments.user', select: 'name displayName'})
     .populate({path: 'runners.runner', select: 'name displayName'}).exec(function(err, race){
         if(race.fastest){
             const fastestTime = race.runners.id(race.fastest);
-            User.findById(fastestTime.runner, "name", function(err, runner) {
-                if(err){
-                    //TODO add error action
-                }
+            User.findById(fastestTime.runner, "name displayName", function(err, runner) {
                 const fastest = {
                     name: (runner.displayName) ? runner.displayName : runner.name,
-                    time: new Date(fastestTime.time * 1000).toISOString().substr(11,8) 
-                    //TODO do this date formatting in the view
+                    time: fastestTime.time,
                 }
                 res.render('races/show', {
                     title: race.name,
@@ -114,6 +112,8 @@ function show(req, res) {
                     runners: race.runners.length > 0 ? race.runners : null,
                     comments: race.comments.length > 0 ? race.comments : null,
                     dateFormat,
+                    message: message.length > 0 ? message : "",
+                    errors: errMessage.length > 0 ? errMessage : "",
                 });        
             })
         } else {
@@ -124,6 +124,8 @@ function show(req, res) {
                 runners: race.runners.length > 0 ? race.runners : null,
                 comments: race.comments.length > 0 ? race.comments : null,
                 dateFormat,
+                message: message.length > 0 ? message : "",
+                errors: errMessage.length > 0 ? errMessage : "",
             });
         }
     });

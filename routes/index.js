@@ -15,7 +15,6 @@ router.get('/oauth2callback', function(req, res, next) {
     }
     if (!user) {
       return res.redirect('/');
-      //TODO Add in error code to the page so that user can address it
     }
     req.logIn(user, function(err){
       if(err) {
@@ -32,7 +31,13 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  const message = req.flash('message');
+  const errors = req.flash('errors');
+  res.render('index', {
+    title: 'Express',
+    message: message.length > 0 ? message : "",
+    errors: errors.length > 0 ? errors : "",
+ });
 });
 
 module.exports = router;

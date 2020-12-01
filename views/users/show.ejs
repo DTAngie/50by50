@@ -6,6 +6,11 @@
             <%= message %>
         </div>
     <% } %>
+    <% if(errors) { %>
+        <div class="errors">
+            <%= errors %>
+        </div>
+    <% } %>
     <div class="left">
         <div id="user-info">
             <h2><%= locals.user.name%> <%= (locals.user.displayName) ? "(" + locals.user.displayName + ")" : '' %></h2>

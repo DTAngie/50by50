@@ -1,14 +1,24 @@
 <%- include('../partials/header') %>
 <%- include('../partials/nav') %>
 <div class="container">
+    <% if(message) { %>
+        <div class="messages">
+            <%= message %>
+        </div>
+    <% } %>
+    <% if(errors) { %>
+        <div class="errors">
+            <%= errors %>
+        </div>
+    <% } %>
     <div class="left">
         <h2><%=race.name %></h2>
         <h4><%= race.city %> <%= race.state %></h4>
         <div id="fastest">
             <p id="fast-title">Fastest Time</p>
             <% if(fastest) { %>
-                <span><%= fastest.name %></span>
-                <span><%= fastest.time %></span>
+                <span><%= (fastest.displayName) ? fastest.displayName : fastest.name %></span>
+                <span><%= new Date(fastest.time * 1000).toISOString().substr(11,8) %></span>
             <% } else { %>
                 <span>No runners available</span>
             <% } %>
@@ -43,7 +53,6 @@
                         <% if(c.user._id.toString() === locals.user._id.toString()){ %>
                             <div class="delete-item hidden" id="comment-<%= c._id %>-race-<%= race._id %>"></div>
                         <% } %>
-                        <!-- TODO only display delete for your own comments and then double check on server side -->
                         <p class="comment-text">
                             <%= c.comment %>
                         </p>

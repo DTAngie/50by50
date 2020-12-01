@@ -535,6 +535,7 @@ form div .form-section-header:not(:first-child) {
   width: 100%;
   max-width: 500px;
   height: 250px;
+  position: relative;
 }
 
 .error-msg {
@@ -561,7 +562,7 @@ form div .form-section-header:not(:first-child) {
   bottom: 4px;
 }
 
-.messages {
+.messages, .errors {
   background-color: #9ac567;
   color: white;
   padding: 15px 20px;
@@ -579,6 +580,10 @@ form div .form-section-header:not(:first-child) {
     animation: hideMessage 1s ease-in 5s forwards;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
+}
+
+.errors {
+  background-color: rgb(192, 8, 8);
 }
 
 @keyframes hideMessage {
