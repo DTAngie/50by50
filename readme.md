@@ -6,7 +6,7 @@ For the runners who like to travel, this app will help you keep track of each st
 
 ## Screenshots
 ![Screenshot 1](./public/images/ScreenShot1.png "Screenshot")
-![Screenshot 2](./public/images/ScreenShot2.png "Screenshot 2")
+![Screenshot 2](./public/images/Screenshot2.png "Screenshot 2")
 
 ## Technologies
 This app was built with the following technologies:
