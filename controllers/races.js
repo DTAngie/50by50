@@ -12,7 +12,7 @@ module.exports = {
 }
 
 function index(req, res) {
-    Race.find({}).sort({name: 'descending'}).exec(function(err, races){
+    Race.find({}).sort({name: 'ascending'}).exec(function(err, races){
         if(err){
             res.redirect('/');
         } else {

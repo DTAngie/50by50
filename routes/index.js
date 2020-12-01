@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
   const message = req.flash('message');
   const errors = req.flash('errors');
   res.render('index', {
-    title: 'Express',
+    title: '50 by 50',
     message: message.length > 0 ? message : "",
     errors: errors.length > 0 ? errors : "",
  });

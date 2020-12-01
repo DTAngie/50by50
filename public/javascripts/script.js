@@ -17,7 +17,6 @@ modalCancelEl.addEventListener('click', function(e){
     modalContainerEl.classList.add('hidden');
 });
 
-
 if(deleteBtnEls){
     deleteBtnEls.forEach(function(btn){
         btn.addEventListener('click', function(e){
@@ -31,8 +30,6 @@ if(deleteBtnEls){
         })
     });
 }
-
-
 
 //User page
 if(changeLocationEl){
@@ -98,9 +95,7 @@ function toggleForm(formElement, el, originalText = null){
     }
 }
 
-
 //Show race page
-
 if(commentContEls){
     commentContEls.forEach(function(c){
         let deleteEl = (c.getElementsByClassName('delete-item'));

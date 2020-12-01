@@ -11,7 +11,7 @@ module.exports = {
     delete: deleteUser,
 }
 
-function show(req, res) {
+async function show(req, res) {
     const states = Constants.states;
     //userID refers to the owner of the profile, not the user logged in
     const userID = (!req.params.id) ? req.user._id : req.params.id; 
@@ -20,52 +20,47 @@ function show(req, res) {
     let message = req.flash('message');
     let errMessage = req.flash('errors');
     let currentRaceId = req.flash('current-race');
+    let currentRace, mapLocation;
     if(currentRaceId){
         currentRaceId = req.query.currentRace;
     }
-    User.findById(userID)
-    .then(user => {
-        Race.find({'runners.runner': userID}, function(err, races){
-        let currentRace;
-        if(currentRaceId) {
-            Race.findOne({_id: currentRaceId, 'runners.runner': userID }, function(err, race){
-                currentRace = race;
-                let racer = race.runners.filter(function(r){
+    try {
+        const user = await User.findById(userID);
+        const races = await Race.find({'runners.runner': userID}).sort({date: 'descending'}).exec();
+        if(currentRaceId){
+            currentRace = await Race.findOne({_id: currentRaceId, 'runners.runner': userID });
+            if(currentRace) {
+                let racer = currentRace.runners.filter(function(r){
                     return r.runner.toString() === userID.toString();
                 });
                 currentRace.time = new Date(racer[0].time * 1000).toISOString().substr(11,8);
                 currentRace.runnerId = racer[0]._id;
-
-                const mapLocation = currentRace.city.replace("/\s/g", "+") + "," + currentRace.state;
-                
-                res.render('users/show', {
-                    title: "Profile",
-                    races,
-                    dateFormat,
-                    currentRace: currentRace,
-                    isOwner,
-                    states,
-                    mapKey,
-                    mapLocation,
-                    message: message.length > 0 ? message : "",
-                    errors: errMessage.length > 0 ? errMessage : "",
-
-                });
-            });            
-        } else {
-            res.render('users/show', {
-                title: "Profile",
-                races,
-                dateFormat,
-                currentRace: currentRace,
-                isOwner,
-                states,
-                message: message.length > 0 ? message : "",
-                errors: errMessage.length > 0 ? errMessage : "",
-            });
+                mapLocation = currentRace.city.replace("/\s/g", "+") + "," + currentRace.state;
+            }
         }
-        })
-    }); 
+        res.render('users/show', {
+            title: "Profile",
+            races,
+            dateFormat,
+            currentRace: (currentRace) ? currentRace : null,
+            isOwner,
+            states,
+            mapKey,
+            mapLocation: (mapLocation) ? mapLocation : null,
+            message: message.length > 0 ? message : "",
+            errors: errMessage.length > 0 ? errMessage : "",
+    
+        });
+    } catch(err){
+        console.log(err);
+        if(isOwner){
+            req.flash('errors', 'Something went wrong, please try again.');
+            res.redirect('/');
+        } else {
+            req.flash('errors', 'Something went wrong, please try again.');
+            res.redirect(`/users/profile/${userID}`);
+        }
+    }
 }
 
 function update(req, res){
