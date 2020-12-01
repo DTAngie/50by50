@@ -9,7 +9,6 @@ module.exports = {
 }
 
 function create(req, res) {
-    console.log(req.params.id);
     Race.findById(req.params.id, function(err, race){
         if(err){
             // TODO deal with error

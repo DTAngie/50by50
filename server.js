@@ -6,6 +6,7 @@ var logger = require('morgan');
 var session = require('express-session');
 var passport = require('passport');
 var methodOverride = require('method-override');
+var flash = require('connect-flash');
 
 require('dotenv').config();
 
@@ -19,6 +20,10 @@ var runnersRouter = require('./routes/runners');
 var commentsRouter = require('./routes/comments');
 
 var app = express();
+
+// app.use(cookieParser('secret'));
+// app.use(session({cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

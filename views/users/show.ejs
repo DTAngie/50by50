@@ -1,6 +1,11 @@
 <%- include('../partials/header') %>
 <%- include('../partials/nav') %>
 <div class='container'>
+    <% if(message) { %>
+        <div class="messages">
+            <%= message %>
+        </div>
+    <% } %>
     <div class="left">
         <div id="user-info">
             <h2><%= locals.user.name%> <%= (locals.user.displayName) ? "(" + locals.user.displayName + ")" : '' %></h2>

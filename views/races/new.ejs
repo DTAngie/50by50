@@ -37,6 +37,7 @@
             <input type="text" name="city" id="race-city">
             <label for="race-state">State</label>
             <select name="state" id="race-state">
+                <option value=""></option>
                 <% states.forEach(function(s){ %>
                     <option value="<%= s %>"><%= s %></option>
                 <% }); %>
@@ -51,5 +52,14 @@
             <button type="submit">Add Race</button>
         </div>
     </form>
+    <% if(errors) { %>
+        <div class="error-msg">
+            <% errors.forEach(function(e){ %>
+                <div>
+                    <p>&#9888; <span><%= e %></span></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 </div>
 <%- include('../partials/footer') %>

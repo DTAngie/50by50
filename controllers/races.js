@@ -14,9 +14,10 @@ module.exports = {
 function index(req, res) {
     Race.find({}).sort({name: 'descending'}).exec(function(err, races){
         if(err){
-            //TODO do something
+            res.redirect('/');
+        } else {
+            res.render('races/index', {title: 'All Races', races, dateFormat});
         }
-        res.render('races/index', {title: 'All Races', races, dateFormat});
     })
 }
 
@@ -24,9 +25,14 @@ function newRace (req, res) {
     const states = Constants.states;
     Race.find({}).sort({name: 'descending'}).exec(function(err, races){
         if(err){
-            //do something
+            res.redirect('/');
         }
-        res.render('races/new', {title: 'Add New Race', states, races});
+        res.render('races/new', {
+            title: 'Add New Race',
+            states,
+            races, 
+            errors: req.flash('errors'),
+        });
     });
 }
 
@@ -36,24 +42,34 @@ function create(req, res) {
 
     Race.create(req.body, function(err, race){
         if(err){
-            res.redirect('/races/new');
-        }
-        let person = {
-            _id: mongoose.Types.ObjectId(),
-            time: time,
-        }
-        if(time) {
-            race.fastest = person._id;
-        }
-        User.findById(userID, function(err, user){
-            if(err){
-                res.redirect('/races/new');
+            let errorsArray = [];
+            for(e in err.errors){
+                errorsArray.push(e.charAt(0).toUpperCase() + e.slice(1)
+                + " is " + err.errors[e].kind
+                );
             }
-            person.runner = user._id;
-            race.runners.push(person);
-            race.save();
-            res.redirect(`/users/profile/${userID}`); 
-        });
+            req.flash('errors', errorsArray);
+            res.redirect('/races/new');
+        } else {
+            let person = {
+                _id: mongoose.Types.ObjectId(),
+                time: time,
+            }
+            if(time) {
+                race.fastest = person._id;
+            }
+            User.findById(userID, function(err, user){
+                if(err){
+                    res.redirect('/races/new');
+                }
+                person.runner = user._id;
+                race.runners.push(person);
+                race.save();
+                req.flash('current-race', race._id);
+                req.flash('message', "New Race added");
+                res.redirect(`/users/profile/${userID}`); 
+            });
+        }
     })
 
     function formatTime(hr, min, sec) {
@@ -74,13 +90,7 @@ function create(req, res) {
     }
 
 }
-//TODO this should go in a different function after the race has already been created
-// function updateFastestTime(time, race){
-//     if (time < race.fastest){
-//         race.fastest = time;
-//         race.save()
-//     }
-// }
+
 
 function show(req, res) {
     Race.findById(req.params.id)
@@ -111,7 +121,7 @@ function show(req, res) {
                 title: race.name,
                 race,
                 fastest: null,
-                runners: null,
+                runners: race.runners.length > 0 ? race.runners : null,
                 comments: race.comments.length > 0 ? race.comments : null,
                 dateFormat,
             });

@@ -17,15 +17,21 @@ function show(req, res) {
     const userID = (!req.params.id) ? req.user._id : req.params.id; 
     const isOwner = (req.user._id.toString() === userID.toString()) ? true : false;
     const mapKey = process.env.GOOGLE_API_KEY;
+    let message = req.flash('message');
+    let currentRaceId = req.flash('current-race');
+    if(currentRaceId){
+        currentRaceId = req.query.currentRace;
+    }
     User.findById(userID)
     .then(user => {
         Race.find({'runners.runner': userID}, function(err, races){
         let currentRace;
-        if(req.query.currentRace) {
-            Race.findOne({_id: req.query.currentRace, 'runners.runner': userID }, function(err, race){
+        if(currentRaceId) {
+            Race.findOne({_id: currentRaceId, 'runners.runner': userID }, function(err, race){
                 if(err){
                     // TODO do something
                 }
+                console.log('inside');
                 currentRace = race;
                 let racer = race.runners.filter(function(r){
                     return r.runner.toString() === userID.toString();
@@ -44,6 +50,8 @@ function show(req, res) {
                     states,
                     mapKey,
                     mapLocation,
+                    message: message.length > 0 ? message : "",
+
                 });
             });            
         } else {
@@ -55,6 +63,7 @@ function show(req, res) {
                 currentRace: currentRace,
                 isOwner,
                 states,
+                message: message.length > 0 ? message : "",
             });
         }
         })
@@ -70,7 +79,11 @@ function update(req, res){
         user.displayName = req.body.displayName;
         user.city = req.body.city;
         user.state = req.body.state;
-        user.save();
+        user.save(function(err){
+            if(err){
+                //do something
+            }
+        });
         res.redirect(`/users/profile/${user._id}`);
     })
 }
@@ -144,7 +157,7 @@ function deleteUser(req, res) {
             }
         }
       
-   
+   // TODO flash a confirmation message that says deletion was a success
 
 
 

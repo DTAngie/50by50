@@ -13,8 +13,8 @@ function create(req, res) {
     let time = formatTime(req.body.hours, req.body.minutes, req.body.seconds);
     Race.find({_id: req.body.id, 'runners.runner': req.user._id}, function(err, races){
         if(races.length > 0) {
+            req.flash('errors', "Looks like you have already run this race. You can update your time from your profile page.");
             res.redirect('/races/new');
-            // TODO this should have error with it
         } else {
             Race.findById(req.body.id, function(err, race){
                 const fastestTime = (race.fastest) ? race.runners.id(race.fastest) : null ;
@@ -39,7 +39,7 @@ function create(req, res) {
                         race.fastest = person._id
                     }
                     race.save();
-                    
+                    req.flash('message', "New Race added");
                     res.redirect(`/users/profile/${user._id}`);
                 });
             });
@@ -53,21 +53,27 @@ function update(req, res) {
             //do something
         }
         const runner = race.runners.id(req.params.runnerId);
+        const raceFastest = race.fastest ? race.fastest : "null";
         const fastestTime = (race.fastest) ? race.runners.id(race.fastest).time : null ;
         let time = formatTime(req.body.hours, req.body.minutes, req.body.seconds);
         runner.time = time;
-        if(race.fastest.toString() !== runner._id.toString() ){
+        if(raceFastest.toString() !== runner._id.toString() ){
             //If user was not fastest user and now is after edit
-            if(runner.time < fastestTime){
+            if(runner.time < fastestTime || fastestTime === null){
                 race.fastest = runner._id;
             }
         } else {
             //If user was the fastest user and now is not after edit
-            if(runner.time > fastestTime){
+            console.log(runner.time)
+            if(runner.time > fastestTime || runner.time == null){
                 let nextHighest = race.runners.sort(function(a, b){
                     return a.time - b.time;
                 });
-                race.fastest = nextHighest[0]._id;
+                if(nextHighest[0].time !== null && nextHighest[0].time !== 0){
+                    race.fastest = nextHighest[0]._id;
+                } else {
+                    race.fastest = null;
+                }
             }
         }
         race.save(function(err){
@@ -75,7 +81,7 @@ function update(req, res) {
                 //do something
             }
         });
-
+        req.flash('message', "Chip time updated");
         res.redirect(`/users/profile/${req.user._id}?currentRace=${req.params.id}`);
     });
 }

@@ -19,7 +19,7 @@
                     <% runners.forEach(function(r){ %>
                         <li>
                             <a href="/users/profile/<%= r.runner.id %>"><%= (r.runner.displayName) ? r.runner.displayName : r.runner.name %></a>
-                            <span><%= new Date(r.time * 1000).toISOString().substr(11,8) %></span>
+                            <span><%= (r.time !== null) ? new Date(r.time * 1000).toISOString().substr(11,8) : "Time not available" %></span>
                         </li>
                     <% }) %>
                 <% } %>
