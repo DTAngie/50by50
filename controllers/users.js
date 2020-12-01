@@ -52,7 +52,6 @@ async function show(req, res) {
     
         });
     } catch(err){
-        console.log(err);
         if(isOwner){
             req.flash('errors', 'Something went wrong, please try again.');
             res.redirect('/');
