@@ -40,6 +40,7 @@ async function show(req, res) {
         }
         res.render('users/show', {
             title: "Profile",
+            user,
             races,
             dateFormat,
             currentRace: (currentRace) ? currentRace : null,

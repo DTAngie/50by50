@@ -13,10 +13,14 @@
     <% } %>
     <div class="left">
         <div id="user-info">
-            <h2><%= locals.user.name%> <%= (locals.user.displayName) ? "(" + locals.user.displayName + ")" : '' %></h2>
+            <% if(isOwner) { %>
+                <h2><%= user.name%> <%= (user.displayName) ? "(" + user.displayName + ")" : '' %></h2>
+            <% } else { %>
+                <h2><%= (user.displayName) ? user.displayName : user.name %></h2>
+            <% } %>
             <p>
-                <%= locals.user.city ? locals.user.city : '' %>
-                <%= locals.user.state ? locals.user.state : '' %>
+                <%= user.city ? user.city : '' %>
+                <%= user.state ? user.state : '' %>
             </p>
             <% if(isOwner) {%>
                 <span class="pseudo-link" id="change-location">Edit Name/Location</span>
